@@ -2,15 +2,23 @@ application: bel-adm
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: true
+threadsafe: false
 
 handlers:
 - url: /css
   static_dir: css
 - url: /js
   static_dir: js
-- url: /templates
-  static_dir: templates
+# Home Directory
+- url: /h
+  static_dir: h
+# Portal Directory
+- url: /p
+  static_dir: p
+#- url: /p/.*
+#  script: account.py
+#  login: required
+#  auth_fail_action: unauthorized
 - url: /.*
   script: main.application
 
