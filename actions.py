@@ -1,4 +1,7 @@
+import webapp2
+import os
 from models import Students
+from google.appengine.ext import db
 
 class CreateUser(webapp2.RequestHandler):
     def post(self):
@@ -6,7 +9,7 @@ class CreateUser(webapp2.RequestHandler):
                         email=self.request.get('email'),
                         username=self.request.get('username'),
                         password=self.request.get('password'),
-                        coursen=self.request.get('courseN'),
-                        courset=sef.request.get('courseT'))
+                        courseN=self.request.get('courseN'),
+                        courseT=sef.request.get('courseT'))
         s.put()
     

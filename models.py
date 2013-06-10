@@ -1,19 +1,19 @@
-from google.appengine.ext import ndb
+from google.appengine.ext import db
 
 
-class Students(ndb.Model):
+class Students(db.Model):
 
-    name = ndb.StringProperty()
-    email = ndb.StringProperty() 
-    username = ndb.StringProperty()
-    password = ndb.StringProperty()
-    courseN = ndb.StringProperty()
-    courseT = ndb.StringProperty()
+    name = db.StringProperty()
+    email = db.StringProperty() 
+    username = db.StringProperty()
+    password = db.StringProperty()
+    courseN = db.StringProperty()
+    courseT = db.StringProperty()
     
-class Tutors (ndb.Model):
+class Tutors (db.Model):
 
-    name = ndb.StringProperty()
-    email = ndb.StringProperty() 
-    username = ndb.StringProperty()
-    password = ndb.StringProperty()
-    role = ndb.StringProperty()
+    name = db.StringProperty()
+    email = db.StringProperty() 
+    username = db.StringProperty()
+    password = db.StringProperty()
+    role = db.StringProperty()
