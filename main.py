@@ -64,7 +64,7 @@ LOGIN_PAGE_HTML = """\
         </div>
      </div>
      </div>
-                        <script src="/js/bootstrap.js"></script>
+                    <script src="/js/bootstrap.js"></script>
                     <script src="/js/jquery.js"></script>
                     <script src="/js/bootstrap.min.js"></script>
                     </body>
@@ -99,13 +99,12 @@ class Login(webapp2.RequestHandler):
         self.response.write(LOGIN_PAGE_HTML)
         
     def post(self):
-        iName = self.request.get('name')
-        iPassword=self.request.get('password')
-        
+        iName = self.request.get('username')
+     
         if  iName == "Phil" :
-            return  webapp2.redirect('/' + iName)
+            return  webapp2.redirect('/p/portal')
         else:
-            return webapp2.redirect('/login' + iName)
+            return webapp2.redirect('/login')
             
     
 
