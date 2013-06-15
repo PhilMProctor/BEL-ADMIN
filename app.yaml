@@ -15,10 +15,16 @@ handlers:
 # Portal Directory
 - url: /p
   static_dir: p
+# Admin page
 - url: /admin
   script: main.application
-- url: /login
+#
+- url: /student
   script: main.application
+#
+- url: /tutor
+  script: main.application
+#
 - url: /.*
   script: main.application
 
