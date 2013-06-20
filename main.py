@@ -1,5 +1,5 @@
 import webapp2
-import cgi
+#import cgi
 from models import Students
 from pages import LOGIN_PAGE_HTML, sADMIN_PAGE_HTML
 from google.appengine.api import users
@@ -26,7 +26,8 @@ class sAdmin(webapp2.RequestHandler):
         return webapp2.redirect('/')
 
 class sLogin(webapp2.RequestHandler):
-    #launches login modal
+    # launches login modal and confirms student is valid
+    # Checks session to bypass the login requirements
 
     def get(self):
     
