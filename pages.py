@@ -1,29 +1,29 @@
 
 
 sADMIN_PAGE_HTML = """\
+    <!DOCTYPE html>
     <html>
-        <body>
-            <form action="" method="post">
-                <label for="username">username</label>:
-                <input type="text" name="username" id="username" />
-                <br/>
-                <label for="password">password</label>:
-                <input type="text" name="password" id="password" />
-                <br/>
-                <label for="courseN">course number</label>:
-                <input type="text" name="courseN" id="courseN" />
-                <br/>
-                <label for="courseT">course type</label>:
-                <input type="text" name="courseT" id="courseT" />
-                <br/>
-                <input type="submit" value=submit />
-                    
-            </form>
-        </body>
+    <body>
+      <form action="" method="post">
+      <label for="username">username</label>:
+      <input type="text" name="username" id="username" />
+      <br/>
+      <label for="password">password</label>:
+      <input type="text" name="password" id="password" />
+      <br/>
+      <label for="courseN">course number</label>:
+      <input type="text" name="courseN" id="courseN" />
+      <br/>
+      <label for="courseT">course type</label>:
+      <input type="text" name="courseT" id="courseT" />
+      <br/>
+      <input type="submit" value=submit />                 
+      </form>
+    </body>
     </html>
     """ 
 LOGIN_PAGE_HTML = """\
-                      <!DOCTYPE html>
+        <!DOCTYPE html>
         <html>
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -1,5 +1,18 @@
+#!/usr/bin/env python
+
+from google.appengine.ext.webapp import template
+from google.appengine.ext import ndb
+
+import logging
+import os.path
 import webapp2
-#import cgi
+
+from webapp2_extras import auth
+from webapp2_extras import sessions
+
+from webapp2_extras.auth import InvalidAuthIdError
+from webapps_extras.auth import InvalidPasswordError
+
 from models import Students
 from pages import LOGIN_PAGE_HTML, sADMIN_PAGE_HTML
 from google.appengine.api import users
@@ -9,7 +22,7 @@ class MainPage(webapp2.RequestHandler):
 # Loads the home page
 
     def get(webapp2):
-        webapp2.redirect('h/home.html')
+        webapp2.redirect('views/home.html')
         
 class sAdmin(webapp2.RequestHandler):
 # Adds entries in Students Entity within the Datastore
@@ -34,7 +47,7 @@ class sLogin(webapp2.RequestHandler):
         user = users.get_current_user()
         if user:
             greeting = ('Welcome, %s! (<a href="%s">Continue</a>)' %
-                        (user.nickname(), webapp2.redirect('/p/portal')))
+                        (user.nickname(), webapp2.redirect('/views/portal')))
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                         users.create_login_url('/'))
