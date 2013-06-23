@@ -9,17 +9,12 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
-# Home Directory
-- url: /h
-  static_dir: h
-# Portal Directory
-- url: /p
-  static_dir: p
+
 # Admin page
 - url: /admin
   script: main.application
 #
-- url: /student
+- url: /portal
   script: main.application
 #
 - url: /tutor

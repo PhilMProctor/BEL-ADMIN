@@ -22,7 +22,7 @@ sADMIN_PAGE_HTML = """\
     </body>
     </html>
     """ 
-LOGIN_PAGE_HTML = """\
+WELCOME = """\
         <!DOCTYPE html>
         <html>
         <head>
@@ -31,23 +31,8 @@ LOGIN_PAGE_HTML = """\
         </head>
         <body>
         <div class="container">
-            <br/>
-            <br/>
-            <a class="btn" data-toggle="modal" href="#myModal" role="button">Students &raquo;</a></p>
-        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="myModal" role="dialog" tabindex="-1">
-           <div class="modal-header">
-            <button aria-hidden="true" class="close" data-dismiss="modal" type="button">x</button>
-            <h3 id="myModalLabel">
-             Student Login</h3>
-           </div>
-           <div class="modal-body">
-                        %s
-           </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal">Close</button></div>
-            </div>
-         </div>
-         </div>
+           Welcome so happy to see you %s 
+        </div>
                         <script src="/js/bootstrap.js"></script>
                         <script src="/js/jquery.js"></script>
                         <script src="/js/bootstrap.min.js"></script>

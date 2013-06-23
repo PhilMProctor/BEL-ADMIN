@@ -1,7 +1,5 @@
-#!/usr/bin/env python
-
 from google.appengine.ext.webapp import template
-from google.appengine.ext import ndb
+from google.appengine.ext import db
 
 import logging
 import os.path
@@ -11,19 +9,21 @@ from webapp2_extras import auth
 from webapp2_extras import sessions
 
 from webapp2_extras.auth import InvalidAuthIdError
-from webapps_extras.auth import InvalidPasswordError
+from webapp2_extras.auth import InvalidPasswordError
 
 from models import Students
-from pages import LOGIN_PAGE_HTML, sADMIN_PAGE_HTML
+from pages import WELCOME, sADMIN_PAGE_HTML
 from google.appengine.api import users
 
+class BaseHandler(webapp2.RequestHandler):
+  def render_template(self, filename, **template_args):
+        path = os.path.join(os.path.dirname(__file__), 'views', filename)
+        self.response.write(template.render(path, template_args))
 
-class MainPage(webapp2.RequestHandler):
-# Loads the home page
+class MainPage(BaseHandler):
+  def get(self):
+        self.render_template('home.html', user = users.get_current_user())
 
-    def get(webapp2):
-        webapp2.redirect('views/home.html')
-        
 class sAdmin(webapp2.RequestHandler):
 # Adds entries in Students Entity within the Datastore
 
@@ -38,25 +38,26 @@ class sAdmin(webapp2.RequestHandler):
         s.put()
         return webapp2.redirect('/')
 
-class sLogin(webapp2.RequestHandler):
-    # launches login modal and confirms student is valid
-    # Checks session to bypass the login requirements
+class LoginHandler(BaseHandler):
+# Handles user login requests
 
     def get(self):
-    
         user = users.get_current_user()
         if user:
-            greeting = ('Welcome, %s! (<a href="%s">Continue</a>)' %
-                        (user.nickname(), webapp2.redirect('/views/portal')))
+            return self.render_template('portal.html', name=self.request.get('name'))
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                         users.create_login_url('/'))
 
-        self.response.out.write(LOGIN_PAGE_HTML % greeting)
+        self.response.out.write(WELCOME % greeting)
         
+        
+    
 
 application = webapp2.WSGIApplication([
-    ('/', MainPage),
-    ('/admin', sAdmin),
-    ('/student', sLogin),
+    ('/', MainPage,),
+    ('/admin', sAdmin ),
+    ('/portal', LoginHandler),
 ], debug=True)
+
+logging.getLogger().setLevel(logging.DEBUG)

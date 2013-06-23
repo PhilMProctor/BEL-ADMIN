@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,7 +19,7 @@
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
+      <script src="/js/html5shiv.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
@@ -44,50 +43,21 @@
           <a class="brand" href="#">BEL Admin</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="../home.html">Home</a></li>
-              <li><a href="#about">About</a></li>
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="../admin">Admin</a></li>
               <li><a href="#contact">Contact</a></li>
+	      <li>{{ user }}</li>
             </ul>
-            
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
-    <div class="container">
-
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="portal-unit">
-        <h2>Welcome to the Student Portal</h2>
-        <p>This area is where all the relevant information and documentation pertaining to your course is made available.</p>
-        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-      </div>
-
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="span4">
-          <h2>Work Book</h2>
-          <p>The workbook contains learning material and self paced assignments which should help you revise relavent subject material. Sections of the workbook will provide the necessary learning portfolio which is required for assessment</p>
-          <p><a class="btn" href="workbook.html">Continue &raquo;</a></p>
-        </div>
-        <div class="span4">
-          <h2>Course Progress</h2>
-          <p>The course progress section allows you to track you progress during the course. The section includes assignment details, assignment submittion dates and tutor feedback for each weekend.</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-       </div>
-        <div class="span4">
-          <h2>Library</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
+{% block maincontent %}
+    
+{% endblock %}   
+        <footer>
         <p>&copy; Muddy Footprints 2013</p>
       </footer>
-
     </div> <!-- /container -->
 
     <!-- Le javascript
@@ -96,7 +66,6 @@
     <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    
 
   </body>
 </html>
