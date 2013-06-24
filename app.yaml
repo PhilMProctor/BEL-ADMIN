@@ -19,6 +19,12 @@ handlers:
 #
 - url: /tutor
   script: main.application
+  
+- url: /logout
+  script: main.application
+  
+- url: /signin
+  script: main.application
 #
 - url: /.*
   script: main.application

@@ -22,8 +22,13 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainPage(BaseHandler):
   def get(self):
+    user = users.get_current_user()
+    if user == None:
+        user = "Student"
+        self.render_template('home.html', user = user)
+    else:
         self.render_template('home.html', user = users.get_current_user())
-
+            
 class sAdmin(webapp2.RequestHandler):
 # Adds entries in Students Entity within the Datastore
 
@@ -44,13 +49,18 @@ class LoginHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
         if user:
-            return self.render_template('portal.html', name=self.request.get('name'))
+            return self.render_template('portal.html', user = users.get_current_user())
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                         users.create_login_url('/'))
-
         self.response.out.write(WELCOME % greeting)
+        #self.render_template('signin.html', greeting = greeting)
         
+class LogoutHandler(BaseHandler):
+    #Handles user logout requests
+    
+    def get(self):
+        return webapp2.redirect(users.create_logout_url("/"))
         
     
 
@@ -58,6 +68,8 @@ application = webapp2.WSGIApplication([
     ('/', MainPage,),
     ('/admin', sAdmin ),
     ('/portal', LoginHandler),
+    ('/signin', LoginHandler),
+    ('/logout', LogoutHandler),
 ], debug=True)
 
 logging.getLogger().setLevel(logging.DEBUG)
