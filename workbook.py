@@ -26,9 +26,20 @@ class u1Handler(BaseHandler):
     else:
         self.render_template('u1.html', user = users.get_current_user())
         
+class LoginHandler(BaseHandler):
+# Handles user login requests
+
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            return self.render_template('workbook.html', user = users.get_current_user())
+        else:
+            greeting = ('<a href="%s">Sign in or register</a>.' %
+                        users.create_login_url(self.request.uri))
+        self.response.out.write(WELCOME % greeting)
+        #self.render_template('signin.html', greeting = greeting)
+        
 application = webapp2.WSGIApplication([
     ('/u1', u1Handler,),
-], debug=True)
-
-
+    ('/workbook', LoginHandler,),
 ], debug=True)

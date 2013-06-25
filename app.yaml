@@ -16,6 +16,9 @@ handlers:
 #
 - url: /portal
   script: main.application
+  
+- url: /workbook
+  script: workbook.application
 #
 - url: /tutor
   script: main.application
