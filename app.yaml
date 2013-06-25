@@ -25,6 +25,9 @@ handlers:
   
 - url: /signin
   script: main.application
+
+- url: /u1
+  script: workbook.application
 #
 - url: /.*
   script: main.application

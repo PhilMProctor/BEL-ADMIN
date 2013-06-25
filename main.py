@@ -52,7 +52,7 @@ class LoginHandler(BaseHandler):
             return self.render_template('portal.html', user = users.get_current_user())
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
+                        users.create_login_url(self.request.uri))
         self.response.out.write(WELCOME % greeting)
         #self.render_template('signin.html', greeting = greeting)
         
