@@ -1,0 +1,25 @@
+{% extends "admin.html" %}
+{% block Unit %}
+<div class="container">
+    <div class="span9 offset1">
+        <form action="" method="post">
+            <fieldset>
+                <legend>Unit 1 Administration</legend>
+                <label>Unit Title</label>
+                <input type="text" name="title" id="unit_title" placeholder="Type something..">
+            </fieldset>
+            <fieldset>
+                <label>Narrative 1</label>
+                <textarea rows="4" cols="70" name="narrative1" id="narrative1"></textarea>
+                <label>Narrative 2</label>
+                <textarea rows="4" cols="70" name="narrative2" id="narrative2"></textarea>
+                <label>Narrative 3</label>
+                <textarea rows="4" cols="70" name="narrative3" id="narrative3"></textarea>
+                <label>Narrative 4</label>
+                <textarea rows="4" cols="70" name="narrative4" id="narrative4"></textarea>
+            </fieldset>
+            <button type="submit" class="btn btn-info">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock Unit %}

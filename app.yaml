@@ -11,14 +11,20 @@ handlers:
   static_dir: js
 
 # Admin page
+- url: /admin[USP]
+  script: main.application
+  
 - url: /admin
   script: main.application
+  
+- url: /au1[cve]
+  script: wrkbk.application
 #
 - url: /portal
   script: main.application
   
 - url: /workbook
-  script: workbook.application
+  script: wrkbk.application
 #
 - url: /tutor
   script: main.application
@@ -28,16 +34,18 @@ handlers:
   
 - url: /signin
   script: main.application
-
-- url: /u1
-  script: workbook.application
-#
+  
+- url: /test
+  script: wrkbk.application
+  
 - url: /.*
   script: main.application
 
 libraries:
 - name: markupsafe                                                              
-  version: latest 
+  version: latest
+- name: jinja2
+  version: latest
 
 builtins:
 - remote_api: on
