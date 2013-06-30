@@ -53,9 +53,9 @@ class au1c_Handler(BaseHandler):
 class au1v_Handler(BaseHandler):
     #Give ability to view Unit details
     def get(self):
-        unit_title = wUnit1.unit_title
-                        
-        self.render_template('au1v.html', 'unit_title' % unit_title)
+        unitNo = wUnit1.all()
+        
+        self.render_template('au1v.html', {'unitNo' : unitNo})
         
 application = webapp2.WSGIApplication([
     ('/au1c', au1c_Handler,),
