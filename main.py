@@ -20,7 +20,15 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
+#Set current user
+#user = users.get_current_user()
+
 class BaseHandler(webapp2.RequestHandler):
+    
+    def user(self):
+        user= users.get_current_user()
+        return user
+    
     def jinja2(self):
         return jinja2.get_jinja2(app=self.app)
         
@@ -32,6 +40,8 @@ class BaseHandler(webapp2.RequestHandler):
         ):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
+        
+    
 
 class MainPage(BaseHandler):
   def get(self):
@@ -40,7 +50,7 @@ class MainPage(BaseHandler):
         user = "Student"
         self.render_template('home.html', {'user' : user})
     else:
-        self.render_template('home.html', {'user' : users.get_current_user()})
+        self.render_template('home.html', {'user' : user.nickname()})
             
 class sAdmin(webapp2.RequestHandler):
 # Adds entries in Students Entity within the Datastore
@@ -62,6 +72,7 @@ class Admin(BaseHandler):
     #Main Admin portal page
     def get(self):
         user = users.get_current_user()
+        user = user.nickname()
         params = {
             'user': user,
             'interest': interest
@@ -75,7 +86,7 @@ class LoginHandler(BaseHandler):
     def get(self):
         user = users.get_current_user()
         if user:
-            return self.render_template('portal.html', {'user' : users.get_current_user()})
+            return self.render_template('portal.html', {'user' : user.nickname()})
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                         users.create_login_url(self.request.uri))
@@ -92,6 +103,7 @@ class adminU_Handler(BaseHandler):
 
     def get(self):
         user = users.get_current_user()
+        user = user.nickname()
         self.render_template('adminU.html', {'user':user})  
 
 application = webapp2.WSGIApplication([

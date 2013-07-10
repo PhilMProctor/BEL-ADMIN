@@ -34,20 +34,34 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
         
+    def user(self):
+        user = users.get_current_user()
+        return user
+    
+        
 class au1c_Handler(BaseHandler):
     #Give ability to create Unit details
+    
+    
     def post(self):
+        author = users.get_current_user()
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
+                objective1=self.request.get('objective1'),
+                objective2=self.request.get('objective2'),
+                objective3=self.request.get('objective3'),
+                objective4=self.request.get('objective4'),
                 narrative1=self.request.get('narrative1'),
                 narrative2=self.request.get('narrative2'),
                 narrative3=self.request.get('narrative3'),
-                narrative4=self.request.get('narrative4'))
+                narrative4=self.request.get('narrative4'),
+                author=str(author))
+
         unit1.put()
         return webapp2.redirect('/adminU')
                 
     
     def get(self):
-        user = users.get_current_user()
+        user = users.nickname()
         self.render_template('au1c.html', {'user':user})
 
 class au1v_Handler(BaseHandler):
