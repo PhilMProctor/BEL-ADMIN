@@ -46,10 +46,10 @@ class au1c_Handler(BaseHandler):
     def post(self):
         author = users.get_current_user()
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
-                objective1=self.request.get('objective1'),
-                objective2=self.request.get('objective2'),
-                objective3=self.request.get('objective3'),
-                objective4=self.request.get('objective4'),
+                outcome1=self.request.get('outcome1'),
+                outcome2=self.request.get('outcome2'),
+                outcome3=self.request.get('outcome3'),
+                outcome4=self.request.get('outcome4'),
                 narrative1=self.request.get('narrative1'),
                 narrative2=self.request.get('narrative2'),
                 narrative3=self.request.get('narrative3'),
@@ -61,7 +61,7 @@ class au1c_Handler(BaseHandler):
                 
     
     def get(self):
-        user = users.nickname()
+        user = users.get_current_user()
         self.render_template('au1c.html', {'user':user})
 
 class au1v_Handler(BaseHandler):
