@@ -37,7 +37,7 @@ class BaseHandler(webapp2.RequestHandler):
     def user(self):
         user = users.get_current_user()
         return user
-    
+       
         
 class au1c_Handler(BaseHandler):
     #Give ability to create Unit details
@@ -54,6 +54,12 @@ class au1c_Handler(BaseHandler):
                 narrative2=self.request.get('narrative2'),
                 narrative3=self.request.get('narrative3'),
                 narrative4=self.request.get('narrative4'),
+                narrative5=self.request.get('narrative5'),
+                narrative6=self.request.get('narrative6'),
+                narrative7=self.request.get('narrative7'),
+                narrative8=self.request.get('narrative8'),
+                narrative9=self.request.get('narrative9'),
+                narrative10=self.request.get('narrative10'),
                 author=str(author))
 
         unit1.put()
@@ -62,14 +68,22 @@ class au1c_Handler(BaseHandler):
     
     def get(self):
         user = users.get_current_user()
-        self.render_template('au1c.html', {'user':user})
+        params = {
+            'user': user.nickname()
+        }
+        self.render_template('au1c.html', params)
 
 class au1v_Handler(BaseHandler):
     #Give ability to view Unit details
     def get(self):
+        user = users.get_current_user()
         unitNo = wUnit1.all()
+        params = {
+            'unitNo' : unitNo,
+            'user': user.nickname()
+        }
         
-        self.render_template('au1v.html', {'unitNo' : unitNo})
+        self.render_template('au1v.html', params)
         
 application = webapp2.WSGIApplication([
     ('/au1c', au1c_Handler,),

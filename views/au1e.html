@@ -1,5 +1,6 @@
 {% extends "admin.html" %}
 {% block Unit %}
+{% for item in unitNo %}
 <div class="container">
     <div class="span9 offset1">
         <form action="" method="post">
@@ -15,9 +16,9 @@
             </fieldset>
             <fieldset>
                 <label>Outcome 1</label>
-                <input type="text" name="outcome1" id="outcome1"/>
+                <input type="text" name="outcome1" value="{{item.outcome1}}" id="outcome1"/>
                 <label>Narrative 1</label>
-                <textarea rows="4" cols="70" name="narrative1" id="narrative1"></textarea>
+                <textarea rows="4" cols="70" name="narrative1" value="{{item.narrative1}}" id="narrative1"></textarea>
                 <label>Narrative 2</label>
                 <textarea rows="4" cols="70" name="narrative2" id="narrative2"></textarea>
                 <label>Narrative 3</label>
@@ -41,6 +42,7 @@
             </fieldset>
             <button type="submit" class="btn btn-info">Save</button>
         </form>
+      {% endfor %}  
     </div>
 </div>
 {% endblock Unit %}

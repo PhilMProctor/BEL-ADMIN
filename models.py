@@ -25,7 +25,7 @@ class wUnit1(db.Model):
     narrative9 = db.TextProperty()
     narrative10 = db.TextProperty()
     author = db.StringProperty()
-    ftype = db.StringProperty(required=False, choices=set(["template", "page"]))
+    ftype = db.StringProperty(required=True, choices=set(["Template", "Page"]))
     date = db.DateTimeProperty(auto_now_add=True)
 
 
