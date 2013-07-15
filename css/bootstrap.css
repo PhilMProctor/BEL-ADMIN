@@ -8,6 +8,13 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
+.comments {
+  width: 90%;
+  height: 75px;
+  border:1px solid #000000;
+  background-color:#CCCCCC;
+}
+
 .clearfix {
   *zoom: 1;
 }
