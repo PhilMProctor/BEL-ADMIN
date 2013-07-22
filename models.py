@@ -14,30 +14,30 @@ class wUnit1(ndb.Model):
     outcome2 = ndb.StringProperty()
     outcome3 = ndb.StringProperty()
     outcome4 = ndb.StringProperty()
-    narrative1 = nndb.TextProperty()
-    narrative2 = nndb.TextProperty()
-    narrative3 = nndb.TextProperty()
-    narrative4 = nndb.TextProperty()
-    narrative5 = nndb.TextProperty()
-    narrative6 = nndb.TextProperty()
-    narrative7 = nndb.TextProperty()
-    narrative8 = nndb.TextProperty()
-    narrative9 = nndb.TextProperty()
-    narrative10 = nndb.TextProperty()
-    author = nndb.StringProperty()
-    ftype = nndb.StringProperty(required=False, choices=set(["Template", "Page"]))
-    date = nndb.DateTimeProperty(auto_now_add=True)
+    narrative1 = ndb.TextProperty()
+    narrative2 = ndb.TextProperty()
+    narrative3 = ndb.TextProperty()
+    narrative4 = ndb.TextProperty()
+    narrative5 = ndb.TextProperty()
+    narrative6 = ndb.TextProperty()
+    narrative7 = ndb.TextProperty()
+    narrative8 = ndb.TextProperty()
+    narrative9 = ndb.TextProperty()
+    narrative10 = ndb.TextProperty()
+    author = ndb.StringProperty()
+    ftype = ndb.StringProperty(required=False, choices=set(["Template", "Page"]))
+    date = ndb.DateTimeProperty(auto_now_add=True)
 
 
-class Students(nndb.Model):
+class Students(ndb.Model):
 
-    username = nndb.StringProperty()
-    password = nndb.StringProperty()
-    courseN = nndb.StringProperty()
-    courseT = nndb.StringProperty()
+    username = ndb.StringProperty()
+    password = ndb.StringProperty()
+    courseN = ndb.StringProperty()
+    courseT = ndb.StringProperty()
     
-class Tutors (nndb.Model):
+class Tutors (ndb.Model):
 
-    username = nndb.StringProperty()
-    password = nndb.StringProperty()
-    role = nndb.StringProperty()
+    username = ndb.StringProperty()
+    password = ndb.StringProperty()
+    role = ndb.StringProperty()
