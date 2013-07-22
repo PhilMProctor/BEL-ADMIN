@@ -1,4 +1,4 @@
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 import jinja2
 import logging

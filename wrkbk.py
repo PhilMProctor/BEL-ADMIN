@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 import jinja2
 import logging
@@ -77,7 +77,7 @@ class au1v_Handler(BaseHandler):
     #Give ability to VIEW Unit details
     def get(self):
         user = users.get_current_user()
-        unitNo = wUnit1.all()
+        unitNo = wUnit1.query()
         params = {
             'unitNo' : unitNo,
             'user': user.nickname()

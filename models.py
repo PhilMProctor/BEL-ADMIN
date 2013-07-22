@@ -1,4 +1,4 @@
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from webapp2_extras import sessions
 from webapp2_extras import auth
 
@@ -6,38 +6,38 @@ import logging
 import os.path
 import webapp2
 
-class wUnit1(db.Model):
+class wUnit1(ndb.Model):
     #Workbook Unit 1 Datastore
-    unit_title = db.StringProperty()
-    unit_no = db.StringProperty()
-    outcome1 = db.StringProperty()
-    outcome2 = db.StringProperty()
-    outcome3 = db.StringProperty()
-    outcome4 = db.StringProperty()
-    narrative1 = db.TextProperty()
-    narrative2 = db.TextProperty()
-    narrative3 = db.TextProperty()
-    narrative4 = db.TextProperty()
-    narrative5 = db.TextProperty()
-    narrative6 = db.TextProperty()
-    narrative7 = db.TextProperty()
-    narrative8 = db.TextProperty()
-    narrative9 = db.TextProperty()
-    narrative10 = db.TextProperty()
-    author = db.StringProperty()
-    ftype = db.StringProperty(required=False, choices=set(["Template", "Page"]))
-    date = db.DateTimeProperty(auto_now_add=True)
+    unit_title = ndb.StringProperty()
+    unit_no = ndb.StringProperty()
+    outcome1 = ndb.StringProperty()
+    outcome2 = ndb.StringProperty()
+    outcome3 = ndb.StringProperty()
+    outcome4 = ndb.StringProperty()
+    narrative1 = nndb.TextProperty()
+    narrative2 = nndb.TextProperty()
+    narrative3 = nndb.TextProperty()
+    narrative4 = nndb.TextProperty()
+    narrative5 = nndb.TextProperty()
+    narrative6 = nndb.TextProperty()
+    narrative7 = nndb.TextProperty()
+    narrative8 = nndb.TextProperty()
+    narrative9 = nndb.TextProperty()
+    narrative10 = nndb.TextProperty()
+    author = nndb.StringProperty()
+    ftype = nndb.StringProperty(required=False, choices=set(["Template", "Page"]))
+    date = nndb.DateTimeProperty(auto_now_add=True)
 
 
-class Students(db.Model):
+class Students(nndb.Model):
 
-    username = db.StringProperty()
-    password = db.StringProperty()
-    courseN = db.StringProperty()
-    courseT = db.StringProperty()
+    username = nndb.StringProperty()
+    password = nndb.StringProperty()
+    courseN = nndb.StringProperty()
+    courseT = nndb.StringProperty()
     
-class Tutors (db.Model):
+class Tutors (nndb.Model):
 
-    username = db.StringProperty()
-    password = db.StringProperty()
-    role = db.StringProperty()
+    username = nndb.StringProperty()
+    password = nndb.StringProperty()
+    role = nndb.StringProperty()
