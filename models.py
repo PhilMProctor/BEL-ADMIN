@@ -40,4 +40,8 @@ class Tutors (ndb.Model):
 
     username = ndb.StringProperty()
     password = ndb.StringProperty()
+<<<<<<< HEAD
     role = nndb.StringProperty()
+=======
+    role = ndb.StringProperty()
+>>>>>>> refs/heads/development
