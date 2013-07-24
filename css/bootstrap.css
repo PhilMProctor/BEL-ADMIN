@@ -9,10 +9,19 @@
  */
 
 .comments {
-  width: 90%;
+  width: 80%;
   height: 75px;
   border:1px solid #000000;
   background-color:#CCCCCC;
+  font-style:italic;
+}
+
+.narrative {
+  width: 80%;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 30px;
 }
 
 .clearfix {

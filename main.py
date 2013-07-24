@@ -10,7 +10,6 @@ from webapp2_extras import sessions
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
-import webapp2_extras.appengine.auth.models as auth_models
 
 from models import Students
 from pages import WELCOME, sADMIN_PAGE_HTML

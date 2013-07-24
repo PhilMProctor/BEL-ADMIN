@@ -10,42 +10,56 @@ handlers:
 - url: /js
   static_dir: js
 
-# Admin page
+# Admin pages
 - url: /admin[USP]
-  script: main.application
+  script: main2.application
   
 - url: /admin
-  script: main.application
+  script: main2.application
+  secure: always
   
 - url: /au1[cve]
-  script: wrkbk.application
-#
+  script: main2.application
+  
+# Main Pages
 - url: /portal
-  script: main.application
+  script: main2.application
+  secure: always
   
 - url: /workbook
-  script: main.application
+  script: main2.application
 #
 - url: /tutor
   script: main.application
   
 - url: /logout
-  script: main.application
+  script: main2.application
   
 - url: /signin
-  script: main.application
+  script: main2.application
   
-- url: /test
-  script: wrkbk.application
+- url: /signup
+  script: main2.application
+  secure: always
+
+- url: /login
+  script: main2.application
+  secure: always
+
+- url: /forgot
+  script: main2.application
+  secure: always
   
 - url: /.*
-  script: main.application
+  script: main2.application
 
 libraries:
 - name: markupsafe                                                              
   version: latest
 - name: jinja2
   version: latest
+- name: webapp2
+  version: "2.5.1"
 
 builtins:
 - remote_api: on

@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
-
+from google.appengine.ext.webapp import template
 from google.appengine.ext import ndb
 
-import jinja2
 import logging
 import os.path
 import webapp2
@@ -13,13 +12,6 @@ from webapp2_extras import sessions
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
-
-from models import Students, wUnit1
-from pages import WELCOME, sADMIN_PAGE_HTML
-
-TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
-jinja_environment = \
-    jinja2.Environment(autoescape=True, extensions=['jinja2.ext.autoescape'], loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
 def user_required(handler):
   """
@@ -78,18 +70,12 @@ class BaseHandler(webapp2.RequestHandler):
   def session(self):
       """Shortcut to access the current session."""
       return self.session_store.get_session(backend="datastore")
-    
-  def jinja2(self):
-        return jinja2.get_jinja2(app=self.app)
 
-  def render_template(
-        self,
-        filename,
-        template_values,
-        **template_args
-        ):
-        template = jinja_environment.get_template(filename)
-        self.response.out.write(template.render(template_values))
+  def render_template(self, view_filename, params={}):
+    user = self.user_info
+    params['user'] = user
+    path = os.path.join(os.path.dirname(__file__), 'views', view_filename)
+    self.response.out.write(template.render(path, params))
 
   def display_message(self, message):
     """Utility function to display a template with a simple message."""
@@ -112,17 +98,11 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
   def get(self):
-    u = self.user_info
-    username = u['name'] if u else None
-    params = {'username': username}
-    self.render_template('home.html', params)
+    self.render_template('home.html')
 
 class SignupHandler(BaseHandler):
   def get(self):
-    u = self.user_info
-    username = u['name'] if u else None
-    params = {'username': username}
-    self.render_template('signup.html', params)
+    self.render_template('signup.html')
 
   def post(self):
     user_name = self.request.get('username')
@@ -249,24 +229,6 @@ class SetPasswordHandler(BaseHandler):
     self.user_model.delete_signup_token(user.get_id(), old_token)
     
     self.display_message('Password updated')
-    
-class AdminHandler(BaseHandler):
-    @user_required
-    def get(self):
-      u = self.user_info
-      username = u['name']
-      params = {
-      'username': username
-      }
-      self.render_template('admin.html', params)
-        
-class AdminU_Handler(BaseHandler):
-
-    def get(self):
-        u = self.user_info
-        username = u['name'] if u else None
-        params = {'username': username}
-        self.render_template('adminU.html', params)
 
 class LoginHandler(BaseHandler):
   def get(self):
@@ -278,7 +240,7 @@ class LoginHandler(BaseHandler):
     try:
       u = self.auth.get_user_by_password(username, password, remember=True,
         save_session=True)
-      self.redirect(self.uri_for('portal'))
+      self.redirect(self.uri_for('home'))
     except (InvalidAuthIdError, InvalidPasswordError) as e:
       logging.info('Login failed for user %s because of %s', username, type(e))
       self._serve_page(True)
@@ -300,17 +262,6 @@ class AuthenticatedHandler(BaseHandler):
   @user_required
   def get(self):
     self.render_template('authenticated.html')
-    
-class PortalHandler(BaseHandler):
-  @user_required
-  def get(self):
-    u = self.user_info
-    username = u['name']
-    params = {
-      'username': username
-    }
-    self.render_template('portal.html', params)
-
 
 config = {
   'webapp2_extras.auth': {
@@ -322,127 +273,16 @@ config = {
   }
 }
 
-# Start of Work Book Section
-
-# End of Work Book Section
-class WorkbookHandler(BaseHandler):
-  #Load main workbook page
-  def get(self):
-        u = self.user_info
-        username = u['name']
-        params = {
-        'username': username
-        }
-        self.render_template('workbook.html', params)
-
-# Start of Work Book Admin Section
-
-class au1c_Handler(BaseHandler):
-    #Give ability to CREATE Unit details
-    
-    
-    def post(self):
-        author = users.get_current_user()
-        unit1 = wUnit1(unit_title=self.request.get('unit_title'),
-                ftype=self.request.get('ftype'),
-                outcome1=self.request.get('outcome1'),
-                outcome2=self.request.get('outcome2'),
-                outcome3=self.request.get('outcome3'),
-                outcome4=self.request.get('outcome4'),
-                narrative1=self.request.get('narrative1'),
-                narrative2=self.request.get('narrative2'),
-                narrative3=self.request.get('narrative3'),
-                narrative4=self.request.get('narrative4'),
-                narrative5=self.request.get('narrative5'),
-                narrative6=self.request.get('narrative6'),
-                narrative7=self.request.get('narrative7'),
-                narrative8=self.request.get('narrative8'),
-                narrative9=self.request.get('narrative9'),
-                narrative10=self.request.get('narrative10'),
-                author=str(author))
-
-        unit1.put()
-        return webapp2.redirect('/adminU')
-                
-    
-    def get(self):
-        u = self.user_info
-        username = u['name']
-        params = {
-        'username': username
-        }
-        self.render_template('au1c.html', params)
-        
-class au1v_Handler(BaseHandler):
-    #Give ability to VIEW Unit details
-    def get(self):
-        u = self.user_info
-        username = u['name']
-        unitNo = wUnit1.query(wUnit1.ftype == "Template")
-        params = {
-        'unitNo' : unitNo,
-        'username': username
-        }
-        self.render_template('au1v.html', params)
-        
-        
-class au1e_Handler(BaseHandler):
-    #Give ability to EDIT Unit details
-    
-    def post(self):
-        u = self.user_info
-        author = u['name']
-
-        unit1 = wUnit1(unit_title=self.request.get('unit_title'),
-                ftype=self.request.get('ftype'),
-                outcome1=self.request.get('outcome1'),
-                outcome2=self.request.get('outcome2'),
-                outcome3=self.request.get('outcome3'),
-                outcome4=self.request.get('outcome4'),
-                narrative1=self.request.get('narrative1'),
-                narrative2=self.request.get('narrative2'),
-                narrative3=self.request.get('narrative3'),
-                narrative4=self.request.get('narrative4'),
-                narrative5=self.request.get('narrative5'),
-                narrative6=self.request.get('narrative6'),
-                narrative7=self.request.get('narrative7'),
-                narrative8=self.request.get('narrative8'),
-                narrative9=self.request.get('narrative9'),
-                narrative10=self.request.get('narrative10'),
-                author=str(author))
-
-        unit1.put()
-        return webapp2.redirect('/adminU')
-    
-    def get(self):
-        u = self.user_info
-        username = u['name']
-        unitNo = wUnit1.query(wUnit1.ftype == "Template")
-        params = {
-        'unitNo' : unitNo,
-        'username': username
-        }
-        self.render_template('au1e.html', params)
-        
-# End of Work Book Admin Section
-
-application = webapp2.WSGIApplication([
+app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler, name='home'),
     webapp2.Route('/signup', SignupHandler),
     webapp2.Route('/<type:v|p>/<user_id:\d+>-<signup_token:.+>',
       handler=VerificationHandler, name='verification'),
     webapp2.Route('/password', SetPasswordHandler),
     webapp2.Route('/login', LoginHandler, name='login'),
-    webapp2.Route('/portal', PortalHandler, name='portal'),
-    webapp2.Route('/admin', AdminHandler, name="admin"),
-    webapp2.Route('/adminU', AdminU_Handler, name="adminU"),
     webapp2.Route('/logout', LogoutHandler, name='logout'),
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
-    webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
-    webapp2.Route('/workbook', WorkbookHandler, name='workbook'),
-    webapp2.Route ('/au1c', au1c_Handler, name='au1c'),
-    webapp2.Route ('/au1e', au1e_Handler, name='au1e'),
-    webapp2.Route ('/au1v', au1v_Handler, name='au1v')
+    webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated')
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)
