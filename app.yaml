@@ -24,7 +24,7 @@ handlers:
   script: main.application
   
 - url: /workbook
-  script: wrkbk.application
+  script: main.application
 #
 - url: /tutor
   script: main.application

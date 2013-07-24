@@ -10,25 +10,22 @@ from webapp2_extras import sessions
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
+import webapp2_extras.appengine.auth.models as auth_models
 
 from models import Students
 from pages import WELCOME, sADMIN_PAGE_HTML
 from google.appengine.api import users
 
-#Addition
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
-
-#Set current user
-#user = users.get_current_user()
-
-class BaseHandler(webapp2.RequestHandler):
     
+class BaseHandler(webapp2.RequestHandler):
+          
     def user(self):
         user= users.get_current_user()
         return user
-    
+
     def jinja2(self):
         return jinja2.get_jinja2(app=self.app)
         
@@ -112,6 +109,7 @@ application = webapp2.WSGIApplication([
     ('/adminU', adminU_Handler),
     ('/portal', LoginHandler),
     ('/signin', LoginHandler),
+    ('/workbook', LoginHandler),
     ('/logout', LogoutHandler),
 ], debug=True)
 
