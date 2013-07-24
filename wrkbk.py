@@ -92,6 +92,7 @@ class au1e_Handler(BaseHandler):
     
     def post(self):
         author = users.get_current_user()
+
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
                 ftype=self.request.get('ftype'),
                 outcome1=self.request.get('outcome1'),
@@ -116,6 +117,7 @@ class au1e_Handler(BaseHandler):
     def get(self):
         user = users.get_current_user()
         unitNo = wUnit1.query(wUnit1.ftype == "Template")
+
         params = {
             'unitNo' : unitNo,
             'user': user.nickname()
