@@ -1,0 +1,14 @@
+{% extends "admin.html" %}
+{% block Unit %}
+<div class="container">
+    <div class="fluid-row"
+         {% for user in users %}
+        <div class="span9 offset2">
+            {{user.name}}
+            
+        </div>
+        {% endfor %}
+    </div>
+</div>
+            
+{% endblock Unit %}

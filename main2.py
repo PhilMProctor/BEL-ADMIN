@@ -14,7 +14,7 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
-from models import Students, wUnit1
+from models import Students, wUnit1, User
 from pages import WELCOME, sADMIN_PAGE_HTML
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
@@ -322,6 +322,16 @@ config = {
   }
 }
 
+class userHandler(BaseHandler):
+  #User Admin
+  def get(self):
+        users = User.query()
+        params = {
+        'users': users
+        }
+        self.render_template('users.html', params)
+
+
 # Start of Work Book Section
 
 # End of Work Book Section
@@ -442,7 +452,8 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/workbook', WorkbookHandler, name='workbook'),
     webapp2.Route ('/au1c', au1c_Handler, name='au1c'),
     webapp2.Route ('/au1e', au1e_Handler, name='au1e'),
-    webapp2.Route ('/au1v', au1v_Handler, name='au1v')
+    webapp2.Route ('/au1v', au1v_Handler, name='au1v'),
+    webapp2.Route ('/users', userHandler, name='uAdmin')
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)
