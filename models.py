@@ -62,7 +62,7 @@ class wUnit1(ndb.Model):
     date = ndb.DateTimeProperty(auto_now_add=True)
 
 
-class Students(ndb.Model):
+class RBAC(ndb.Model):
 
     username = ndb.StringProperty()
     password = ndb.StringProperty()
@@ -74,3 +74,16 @@ class Tutors (ndb.Model):
     username = ndb.StringProperty()
     password = ndb.StringProperty()
     role = ndb.StringProperty()
+
+class Weekend(ndb.Model):
+    #Weekend One Program
+    wNumber = ndb.TextProperty()
+    wDay = ndb.TextProperty()
+    slot = ndb.TextProperty()
+    outcomes = ndb.TextProperty()
+    description = ndb.TextProperty()
+    delivery = ndb.TextProperty()
+    assessment = ndb.TextProperty()
+    resources = ndb.TextProperty()
+    duration = ndb.TextProperty()
+  

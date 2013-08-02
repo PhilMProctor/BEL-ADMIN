@@ -20,6 +20,7 @@ handlers:
   
 - url: /au1[cve]
   script: main2.application
+  secure: always
   
 # Main Pages
 - url: /portal

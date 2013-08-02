@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 from google.appengine.ext import ndb
 
 import jinja2
@@ -14,8 +13,7 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
-from models import Students, wUnit1, User
-from pages import WELCOME, sADMIN_PAGE_HTML
+from models import wUnit1, User
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
 jinja_environment = \
@@ -261,7 +259,7 @@ class AdminHandler(BaseHandler):
       self.render_template('admin.html', params)
         
 class AdminU_Handler(BaseHandler):
-
+    @user_required
     def get(self):
         u = self.user_info
         username = u['name'] if u else None
@@ -322,8 +320,11 @@ config = {
   }
 }
 
+# Administration
+#
 class userHandler(BaseHandler):
   #User Admin
+  @user_required
   def get(self):
         users = User.query()
         params = {
@@ -337,6 +338,7 @@ class userHandler(BaseHandler):
 # End of Work Book Section
 class WorkbookHandler(BaseHandler):
   #Load main workbook page
+  @user_required
   def get(self):
         u = self.user_info
         username = u['name']
@@ -350,7 +352,7 @@ class WorkbookHandler(BaseHandler):
 class au1c_Handler(BaseHandler):
     #Give ability to CREATE Unit details
     
-    
+    @user_required    
     def post(self):
         author = users.get_current_user()
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
@@ -385,6 +387,7 @@ class au1c_Handler(BaseHandler):
         
 class au1v_Handler(BaseHandler):
     #Give ability to VIEW Unit details
+    @user_required
     def get(self):
         u = self.user_info
         username = u['name']
@@ -398,7 +401,7 @@ class au1v_Handler(BaseHandler):
         
 class au1e_Handler(BaseHandler):
     #Give ability to EDIT Unit details
-    
+    @user_required 
     def post(self):
         u = self.user_info
         author = u['name']
