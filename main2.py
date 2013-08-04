@@ -437,6 +437,17 @@ class au1e_Handler(BaseHandler):
         }
         self.render_template('au1e.html', params)
         
+class u1Handler(BaseHandler):
+  #Load main workbook page
+  @user_required
+  def get(self):
+        u = self.user_info
+        username = u['name']
+        params = {
+        'username': username
+        }
+        self.render_template('u1.html', params)
+        
 # End of Work Book Admin Section
 
 application = webapp2.WSGIApplication([
@@ -456,6 +467,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route ('/au1c', au1c_Handler, name='au1c'),
     webapp2.Route ('/au1e', au1e_Handler, name='au1e'),
     webapp2.Route ('/au1v', au1v_Handler, name='au1v'),
+    webapp2.Route ('/u1', u1_Handler, name='u1'),
     webapp2.Route ('/users', userHandler, name='uAdmin')
 ], debug=True, config=config)
 
