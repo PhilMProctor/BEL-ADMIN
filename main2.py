@@ -471,4 +471,4 @@ application = webapp2.WSGIApplication([
     webapp2.Route ('/users', userHandler, name='uAdmin')
 ], debug=True, config=config)
 
-logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.ERROR)
