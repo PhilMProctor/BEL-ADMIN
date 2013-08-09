@@ -2,26 +2,66 @@
 {% block Unit %}
 <div class="container">
 	<div class="span9 offset1">
-	{% for user in users %}
         <table class="table table-striped">
             <thead>
                     <tr>
-                      <th>Username</th>
-                      <th>Created</th>
+                      <th>Name</th>
+                      <th>Role</th>
                       <th>Verified</th>
+		      <th>Modified Date</th>
                       <th></th>
                       <th></th>
+		      <th></th>
+		      <th></th>
+		      <th></th>
+		      <th></th>
                     </tr>
                   </thead>
                   <tbody>
+		{% for user in users %}
                     <tr>
-                      <td>{{user.name}}</td>
-					            <td>{{user.updated}}</td>
-                      <td>{{user.verified}}</td>                   
-                    </tr>
+			<td>{{user.name}} {{user.last_name}}</td>
+			<td>{{user.role}}</td>
+			<td>{{user.verified}}</td>
+			<td>{{user.updated}}</td>
+			<td>{{user.email_address}}</td>
+			<td>{{user.verified}}</td>
+			<td>{{user.created}}</td>
+			<td>{{user.auth_ids}}</td>
+			<td><button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{user.key.id()}}">Modify</button></td>
+		    </tr>
+			<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal hide fade" id="{{user.key.id()}}" role="dialog" tabindex="-1">
+			<div class="modal-header">
+			<button aria-hidden="true" class="close" data-dismiss="modal" type="button">x</button>
+			<h4 id="{{user.key.id()}}">Modify {{user.name}} {{user.last_name}}</h4>
+			</div>
+			<div class="modal-body-user">
+				<form class="form-inline" method="post">
+				<input type="hidden" id="user_ids" value={{user.auth_ids}}>
+				<input type="hidden" id="created" value={{user.created}}>
+				<input type="hidden" id="password" value={{user.password}}>
+				<input type="hidden" id="verified" value={{user.verified}}>
+				<input type="text" class="form-control" id="name" value={{user.name}}>
+				<input type="text" class="form-control" id="last_name" value={{user.last_name}}>
+				<input type="text" class="form-control" id="email_address" value={{user.email_address}}>
+				<select name="role" id="role" >
+				<option selected="selected">{{user.role}}</option>
+				<option>Guest</option>
+				<option>Student</option>
+				<option>Tutor</option>
+				<option>Assessor</option>
+				<option>Verifier</option>
+				</select>	
+				<button type="submit" class="btn btn-default">Update</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+			<button class="btn" data-dismiss="modal">Close</button></div>
+			</div>
+		{% endfor %}
                   </tbody>
         </table>
-		{% endfor %}
+		
     </div>
 </div>
             

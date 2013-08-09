@@ -9,11 +9,13 @@ import webapp2
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from datetime import datetime
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
 from models import wUnit1, User
+from acl import acl_check
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
 jinja_environment = \
@@ -32,6 +34,15 @@ def user_required(handler):
       return handler(self, *args, **kwargs)
 
   return check_login
+
+def rbac(self, str, params):
+  role = self.user.role
+  page = str
+  the_page = str + '.html'
+  if acl_check(role, page):
+    self.render_template(the_page, params)
+  else:
+    self.render_template('message.html', {'role' : role})
 
 class BaseHandler(webapp2.RequestHandler):
   @webapp2.cached_property
@@ -128,12 +139,13 @@ class SignupHandler(BaseHandler):
     name = self.request.get('name')
     password = self.request.get('password')
     last_name = self.request.get('lastname')
+    role = self.request.get('role')
 
     unique_properties = ['email_address']
     user_data = self.user_model.create_user(user_name,
       unique_properties,
       email_address=email, name=name, password_raw=password,
-      last_name=last_name, verified=False)
+      last_name=last_name, role=role, verified=False)
     if not user_data[0]: #user_data is a tuple
       self.display_message('Unable to create user for email %s because of \
         duplicate keys %s' % (user_name, user_data[1]))
@@ -254,9 +266,9 @@ class AdminHandler(BaseHandler):
       u = self.user_info
       username = u['name']
       params = {
-      'username': username
-      }
-      self.render_template('admin.html', params)
+        'username': username
+        }
+      rbac(self, 'admin', params)
         
 class AdminU_Handler(BaseHandler):
     @user_required
@@ -264,7 +276,7 @@ class AdminU_Handler(BaseHandler):
         u = self.user_info
         username = u['name'] if u else None
         params = {'username': username}
-        self.render_template('adminU.html', params)
+        rbac(self, 'adminU', params)
 
 class LoginHandler(BaseHandler):
   def get(self):
@@ -330,12 +342,30 @@ class userHandler(BaseHandler):
         params = {
         'users': users
         }
-        self.render_template('users.html', params)
+        rbac(self, 'users', params)
+        
+  def post(self):
+    u = self.user_info
+    author = u['name']
+    #date=datetime.date
+    time=datetime.timedelta(hours=0)
+    UserUpdate = User(user_ids=self.request.get('user_ids'),
+            created=self.request.get('created'),
+            password=self.request.get('password'),
+            email_address=self.request.get('email_address'),
+            verified=self.request.get('verified'),
+            name=self.request.get('name'),
+            last_name=self.request.get('last_name'),
+            role=self.request.get('role'),
+            updated=time)
+    UserUpdate.put()
+    return webapp2.redirect('/admin')  
+  
+  
 
 
 # Start of Work Book Section
 
-# End of Work Book Section
 class WorkbookHandler(BaseHandler):
   #Load main workbook page
   @user_required
@@ -345,8 +375,21 @@ class WorkbookHandler(BaseHandler):
         params = {
         'username': username
         }
-        self.render_template('workbook.html', params)
+        rbac(self, 'workbook', params)
+        
+class u1_Handler(BaseHandler):
+  #Load U1 page
+  @user_required
+  def get(self):
+        u = self.user_info
+        username = u['name']
+        params = {
+        'username': username
+        }
+        rbac(self, 'u1', params)
 
+
+# End of Work Book Section
 # Start of Work Book Admin Section
 
 class au1c_Handler(BaseHandler):
@@ -383,7 +426,7 @@ class au1c_Handler(BaseHandler):
         params = {
         'username': username
         }
-        self.render_template('au1c.html', params)
+        rbac(self, 'au1c', params)
         
 class au1v_Handler(BaseHandler):
     #Give ability to VIEW Unit details
@@ -396,7 +439,7 @@ class au1v_Handler(BaseHandler):
         'unitNo' : unitNo,
         'username': username
         }
-        self.render_template('au1v.html', params)
+        rbac(self, 'au1v', params)
         
         
 class au1e_Handler(BaseHandler):
@@ -435,7 +478,7 @@ class au1e_Handler(BaseHandler):
         'unitNo' : unitNo,
         'username': username
         }
-        self.render_template('au1e.html', params)
+        rbac(self, 'au1e', params)
         
 class u1Handler(BaseHandler):
   #Load main workbook page
@@ -446,7 +489,7 @@ class u1Handler(BaseHandler):
         params = {
         'username': username
         }
-        self.render_template('u1.html', params)
+        rbac(self, 'u1', params)
         
 # End of Work Book Admin Section
 

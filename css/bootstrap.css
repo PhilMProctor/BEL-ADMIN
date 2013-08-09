@@ -5268,6 +5268,13 @@ input[type="submit"].btn.btn-mini {
   overflow-y: auto;
 }
 
+.modal-body-user {
+  position: relative;
+  max-height: 400px;
+  padding: 15px;
+/*overflow-y: auto; */
+}
+
 .modal-form {
   margin-bottom: 0;
 }
