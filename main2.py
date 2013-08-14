@@ -348,17 +348,28 @@ class userHandler(BaseHandler):
     u = self.user_info
     author = u['name']
     #date=datetime.date
-    time=datetime.timedelta(hours=0)
-    UserUpdate = User(user_ids=self.request.get('user_ids'),
+    #time=datetime.timedelta(hours=0)
+    iden = int(user_ids)
+    person = db.get(db.Key.from_path('Users', iden))
+    person.created=self.request.get('created')
+    person.password=self.request.get('password')
+    person.email_address=self.request.get('email_address')
+    person.verified=self.request.get('verified')
+    person.name=self.request.get('name')
+    person.last_name=self.request.get('last_name')
+    person.role=self.request.get('role')
+    person.updated=datetime.now()
+    person.put()
+   """ UserUpdate = User(user_ids=self.request.get('user_ids'),
             created=self.request.get('created'),
             password=self.request.get('password'),
             email_address=self.request.get('email_address'),
             verified=self.request.get('verified'),
             name=self.request.get('name'),
             last_name=self.request.get('last_name'),
-            role=self.request.get('role'),
-            updated=time)
-    UserUpdate.put()
+            role=self.request.get('role'))
+    UserUpdate.put()"""
+    
     return webapp2.redirect('/admin')  
   
   
