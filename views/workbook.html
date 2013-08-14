@@ -101,21 +101,16 @@
      </div>
      <div class="row-fluid">
       <div class="span9">
-       <h2>
-        Heading</h2>
+     {% for wUnit in wUnits %}
+       <h2>Unit {{wUnit.unit_no}} - {{wUnit.unit_title}}</h2>
+       <p>{{wUnit.unit_des}}</p>
        <p>
-        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-       <p>
-        <a class="btn" href="#">View details &raquo;</a></p>
+        {% if status %}
+        <a class="btn btn-warning" href="sue/{{wUnit.key.id()}}">Update &raquo;</a></p>
+        {% else %}
+        <a class="btn btn-success" href="suc/{{wUnit.key.id()}}">Start &raquo;</a></p>
+        {% endif %}
       </div>
-     <div class="row-fluid">
-      <div class="span9">
-       <h2>
-        Heading</h2>
-       <p>
-        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-       <p>
-        <a class="btn" href="#">View details &raquo;</a></p>
-      </div>
+    {% endfor %} 
      </div>
 {% endblock content %}

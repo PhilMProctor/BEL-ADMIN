@@ -50,6 +50,17 @@ def rbac(self, str, params):
     self.render_template(the_page, params)
   else:
     self.render_template('message.html', {'role' : role})
+    
+def pageCheck(self, username, unitNo):
+    uChecks = wUnit1.query(wUnit1.author == username, wUnit1.unit_no == unitNo, wUnit1.ftype == 'Page')
+    uCheck = uChecks.fetch(1)
+    if uCheck:
+      status = True
+      return status
+    else:
+      status = False
+      return status
+
 
 class BaseHandler(webapp2.RequestHandler):
   @webapp2.cached_property
@@ -381,7 +392,7 @@ class modifyUser(BaseHandler):
     user.last_name=self.request.get('last_name')
     user.role=self.request.get('role')
     user.put()
-    return webapp2.redirect('/users')
+    return self.redirect('/users')
   
 # Start of Work Book Section
 
@@ -390,9 +401,14 @@ class WorkbookHandler(BaseHandler):
   @user_required
   def get(self):
         u = self.user_info
+        wUnits = wUnit1.query(wUnit1.ftype == "Template")
         username = u['name']
+        unitNo = '1'
+        
         params = {
-        'username': username
+        'username': username,
+        'wUnits': wUnits,
+        'status': pageCheck(self, username, unitNo)
         }
         rbac(self, 'workbook', params)
         
@@ -407,6 +423,46 @@ class u1_Handler(BaseHandler):
         }
         rbac(self, 'u1', params)
 
+class Std_Unit_Create(BaseHandler):
+  #Allows students to start new Unit page
+  @user_required
+  def get(self, wUnit_id):
+        u = self.user_info
+        username = u['name']
+        iden = int(wUnit_id)
+        Unit = wUnit1.get_by_id(iden)
+        
+        params = {
+          'username': username,
+          'Unit': Unit,
+        }
+        rbac(self, 'suc', params)
+        
+  def post(self, wUnit_id):
+        u = self.user_info
+        author = u['name']
+        Page = wUnit1(unit_title=self.request.get('unit_title'),
+                unit_no=self.request.get('unit_no'),
+                unit_des=self.request.get('unit_des'),
+                ftype=self.request.get('ftype'),
+                outcome1=self.request.get('outcome1'),
+                outcome2=self.request.get('outcome2'),
+                outcome3=self.request.get('outcome3'),
+                outcome4=self.request.get('outcome4'),
+                narrative1=self.request.get('narrative1'),
+                narrative2=self.request.get('narrative2'),
+                narrative3=self.request.get('narrative3'),
+                narrative4=self.request.get('narrative4'),
+                narrative5=self.request.get('narrative5'),
+                narrative6=self.request.get('narrative6'),
+                narrative7=self.request.get('narrative7'),
+                narrative8=self.request.get('narrative8'),
+                narrative9=self.request.get('narrative9'),
+                narrative10=self.request.get('narrative10'),
+                author=str(author))
+        Page.put()
+        return self.redirect('/workbook')
+  
 
 # End of Work Book Section
 # Start of Work Book Admin Section
@@ -438,7 +494,7 @@ class auc_Handler(BaseHandler):
                 author=str(author))
 
         unit1.put()
-        return webapp2.redirect('/adminU')
+        return webapp2.redirect('adminU')
                 
     
     def get(self):
@@ -493,7 +549,7 @@ class aue_Handler(BaseHandler):
         Unit.narrative10=self.request.get('narrative10')
         Unit.author=str(author)
         Unit.put()
-        return webapp2.redirect('/adminU')
+        return self.redirect('/adminU')
     
     def get(self, wUnit_id):
         u = self.user_info
@@ -534,6 +590,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
     webapp2.Route('/workbook', WorkbookHandler, name='workbook'),
+    webapp2.Route(r'/suc/<:\w+>', Std_Unit_Create, name='suc'),
     webapp2.Route ('/auc', auc_Handler, name='auc'),
     webapp2.Route (r'/aue/<:\w+>', aue_Handler, name='aue'),
     webapp2.Route (r'/auv/<:\w+>', auv_Handler, name='auv'),

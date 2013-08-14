@@ -1,0 +1,32 @@
+{% extends "unit.html" %}
+{% block content %}
+<div class="container">
+    <div class="span10 offset1">
+        <form action="" method="post">
+            <fieldset>
+                <input type="hidden" name="unit_no" id="unit_no" value="{{ unit_no }}">
+                <input type="hidden" name="unit_title" id="unit_title" value="{{ unit_title }}">
+                <input type="hidden" name="unit_des" id="unit_des" value="{{ unit_des }}">
+                <input type="hidden" name="ftype" id="ftype" value="Page">
+                <h4>{{outcome1}}</h4>
+                <input type="hidden" name="outcome1" id="outcome1" value="{{outcome1}}">
+                <textarea class="comments" name="narrative1" id="narrative1"></textarea>
+                <textarea class="comments" name="narrative2" id="narrative2"></textarea>
+                <textarea class="comments" name="narrative3" id="narrative3"></textarea>
+                <h4>{{outcome2}}</h4>
+                <input type="hidden" name="outcome2" id="outcome1" value="{{outcome2}}">
+                <textarea class="comments" name="narrative4" id="narrative4"></textarea>
+                <textarea class="comments" name="narrative5" id="narrative5"></textarea>
+                <textarea class="comments" name="narrative6" id="narrative6"></textarea>
+                <h4>{{outcome3}}</h4>
+                <input type="hidden" name="outcome3" id="outcome1" value="{{outcome3}}">
+                <textarea class="comments" name="narrative7" id="narrative7"></textarea>
+                <textarea class="comments" name="narrative8" id="narrative8"></textarea>
+                <h4>{{outcome4}}</h4>
+                <input type="hidden" name="outcome4" id="outcome1" value="{{outcome4}}">
+            </fieldset>
+            <button type="submit" class="btn btn-info">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

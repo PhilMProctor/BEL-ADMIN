@@ -33,7 +33,13 @@ handlers:
   
 - url: /workbook
   script: main2.application
-#
+
+# Student Pages
+
+- url: /su[cve]
+  script: main2.application
+  secure: always
+  
 - url: /tutor
   script: main.application
   

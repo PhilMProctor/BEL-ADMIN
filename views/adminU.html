@@ -2,6 +2,7 @@
 {% block Unit %}
 <div class="container">
     <div class="span9 offset1">
+        <a href="/auc" class="btn btn-danger">Create</a>
         <table class="table table-striped">
             <thead>
                     <tr>
@@ -19,7 +20,6 @@
                       <td>{{wUnit.unit_title}}</td>
                       <td><a href="/auv/{{wUnit.key.id()}}" class="btn btn-info">View</a></td>
                       <td><a href="aue/{{wUnit.key.id()}}" class="btn btn-info">Edit</a></td>
-                      <td><a href="/auc" class="btn btn-danger">Create</a></td>
                     </tr>
                 {% endfor %}
                   </tbody>
