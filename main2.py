@@ -6,16 +6,22 @@ import jinja2
 import logging
 import os.path
 import webapp2
+import time
+import datetime
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
-from datetime import datetime
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
 from models import wUnit1, User
 from acl import acl_check
+
+#timestamp=datetime.date.today()
+#update_time=datetime.datetime.isoformat(datetime.datetime.now())
+#update_time=datetime.isoformat(datetime.datetime.now())
+#timestamp=datetime.datetime.time(datetime.datetime.now())
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
 jinja_environment = \
@@ -347,8 +353,8 @@ class userHandler(BaseHandler):
   def post(self):
     u = self.user_info
     author = u['name']
-    #date=datetime.date
-    time=datetime.timedelta(hours=0)
+    update_time=int(datetime.datetime(datetime.datetime.now()))
+   # update_time=datetime.datetime.strftime((datetime.datetime.now()),'%Y-%m-%d %H:%M:%S')
     UserUpdate = User(user_ids=self.request.get('user_ids'),
             created=self.request.get('created'),
             password=self.request.get('password'),
@@ -357,7 +363,7 @@ class userHandler(BaseHandler):
             name=self.request.get('name'),
             last_name=self.request.get('last_name'),
             role=self.request.get('role'),
-            updated=time)
+            updated=update_time)
     UserUpdate.put()
     return webapp2.redirect('/admin')  
   
