@@ -3,7 +3,7 @@
 
 Student = ['workbook','u1','u2']
 Tutor = ['au1e','au1v']
-Admin = ['admin','adminU','au1c','au1e','au1v', 'users']
+Admin = ['admin','adminU','au1c','au1e','au1v', 'users', 'modify']
 
 
 

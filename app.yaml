@@ -22,6 +22,10 @@ handlers:
   script: main2.application
   secure: always
   
+- url: /modify
+  script: main2.application
+  secure: always
+  
 # Main Pages
 - url: /portal
   script: main2.application

@@ -71,6 +71,15 @@ class RBAC(ndb.Model):
     courseN = ndb.StringProperty()
     courseT = ndb.StringProperty()
     
+class course(ndb.Model):
+  name = ndb.StringProperty()
+  last_name = ndb.StringProperty()
+  username = ndb.StringProperty()
+  password = ndb.StringProperty()
+  role = ndb.StringProperty()
+  date = ndb.DateTimeProperty(auto_now_add=True)
+
+    
 class Tutors (ndb.Model):
 
     username = ndb.StringProperty()

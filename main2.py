@@ -8,6 +8,7 @@ import os.path
 import webapp2
 import time
 import datetime
+import sys
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
@@ -15,7 +16,7 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
-from models import wUnit1, User
+from models import wUnit1, User, course
 from acl import acl_check
 
 #timestamp=datetime.date.today()
@@ -349,50 +350,33 @@ class userHandler(BaseHandler):
         'users': users
         }
         rbac(self, 'users', params)
-        
-  def post(self):
-    u = self.user_info
-    author = u['name']
-<<<<<<< HEAD
-    update_time=int(datetime.datetime(datetime.datetime.now()))
-   # update_time=datetime.datetime.strftime((datetime.datetime.now()),'%Y-%m-%d %H:%M:%S')
-    UserUpdate = User(user_ids=self.request.get('user_ids'),
-=======
-    #date=datetime.date
-    #time=datetime.timedelta(hours=0)
-    iden = int(user_ids)
-    person = db.get(db.Key.from_path('Users', iden))
-    person.created=self.request.get('created')
-    person.password=self.request.get('password')
-    person.email_address=self.request.get('email_address')
-    person.verified=self.request.get('verified')
-    person.name=self.request.get('name')
-    person.last_name=self.request.get('last_name')
-    person.role=self.request.get('role')
-    person.updated=datetime.now()
-    person.put()
-   """ UserUpdate = User(user_ids=self.request.get('user_ids'),
->>>>>>> 4db73f90fc523ca55e15e9d56aaeec95609b3190
-            created=self.request.get('created'),
-            password=self.request.get('password'),
-            email_address=self.request.get('email_address'),
-            verified=self.request.get('verified'),
-            name=self.request.get('name'),
-            last_name=self.request.get('last_name'),
-<<<<<<< HEAD
-            role=self.request.get('role'),
-            updated=update_time)
-    UserUpdate.put()
-=======
-            role=self.request.get('role'))
-    UserUpdate.put()"""
     
->>>>>>> 4db73f90fc523ca55e15e9d56aaeec95609b3190
-    return webapp2.redirect('/admin')  
   
+class modifyUser(BaseHandler):
+  #Modify User
+  @user_required
+  def get(self, user_id):
+        iden = int(user_id)
+        user = ndb.Key('User', iden)
+        params = {
+        'user': user
+        }
+        rbac(self, 'modify', params)
+        
+        
+  def post(self, user_id):
+    iden = int(user_id)
+    user = ndb.Key('User', iden)
+    user.password=self.request.get('password'),
+    user.email_address=self.request.get('email_address'),
+    user.verified=self.request.get('verified'),
+    user.name=self.request.get('name'),
+    user.last_name=self.request.get('last_name'),
+    user.role=self.request.get('role')
+    user.put()
+    
+    return webapp2.redirect('/users')
   
-
-
 # Start of Work Book Section
 
 class WorkbookHandler(BaseHandler):
@@ -540,7 +524,8 @@ application = webapp2.WSGIApplication([
     webapp2.Route ('/au1e', au1e_Handler, name='au1e'),
     webapp2.Route ('/au1v', au1v_Handler, name='au1v'),
     webapp2.Route ('/u1', u1_Handler, name='u1'),
-    webapp2.Route ('/users', userHandler, name='uAdmin')
+    webapp2.Route ('/users', userHandler, name='uAdmin'),
+    webapp2.Route ('/modify/<:\d+>', modifyUser, name='modify')
 ], debug=True, config=config)
 
-logging.getLogger().setLevel(logging.ERROR)
+logging.getLogger().setLevel(logging.DEBUG)
