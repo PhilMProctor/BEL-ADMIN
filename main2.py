@@ -353,18 +353,41 @@ class userHandler(BaseHandler):
   def post(self):
     u = self.user_info
     author = u['name']
+<<<<<<< HEAD
     update_time=int(datetime.datetime(datetime.datetime.now()))
    # update_time=datetime.datetime.strftime((datetime.datetime.now()),'%Y-%m-%d %H:%M:%S')
     UserUpdate = User(user_ids=self.request.get('user_ids'),
+=======
+    #date=datetime.date
+    #time=datetime.timedelta(hours=0)
+    iden = int(user_ids)
+    person = db.get(db.Key.from_path('Users', iden))
+    person.created=self.request.get('created')
+    person.password=self.request.get('password')
+    person.email_address=self.request.get('email_address')
+    person.verified=self.request.get('verified')
+    person.name=self.request.get('name')
+    person.last_name=self.request.get('last_name')
+    person.role=self.request.get('role')
+    person.updated=datetime.now()
+    person.put()
+   """ UserUpdate = User(user_ids=self.request.get('user_ids'),
+>>>>>>> 4db73f90fc523ca55e15e9d56aaeec95609b3190
             created=self.request.get('created'),
             password=self.request.get('password'),
             email_address=self.request.get('email_address'),
             verified=self.request.get('verified'),
             name=self.request.get('name'),
             last_name=self.request.get('last_name'),
+<<<<<<< HEAD
             role=self.request.get('role'),
             updated=update_time)
     UserUpdate.put()
+=======
+            role=self.request.get('role'))
+    UserUpdate.put()"""
+    
+>>>>>>> 4db73f90fc523ca55e15e9d56aaeec95609b3190
     return webapp2.redirect('/admin')  
   
   
