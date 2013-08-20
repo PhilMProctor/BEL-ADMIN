@@ -19,9 +19,9 @@ from webapp2_extras.auth import InvalidPasswordError
 from models import wUnit1, User, course
 from acl import acl_check
 
-#timestamp=datetime.date.today()
-#update_time=datetime.datetime.isoformat(datetime.datetime.now())
-#update_time=datetime.isoformat(datetime.datetime.now())
+
+
+
 #timestamp=datetime.datetime.time(datetime.datetime.now())
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'views')
@@ -138,7 +138,8 @@ class SignupHandler(BaseHandler):
     u = self.user_info
     username = u['name'] if u else None
     params = {'username': username}
-    self.render_template('signup.html', params)
+    rbac(self, 'signup', params)
+    #self.render_template('signup.html', params)
 
   def post(self):
     user_name = self.request.get('username')
@@ -357,24 +358,26 @@ class modifyUser(BaseHandler):
   @user_required
   def get(self, user_id):
         iden = int(user_id)
-        user = ndb.Key('User', iden)
+        user = User.get_by_id(iden)
         params = {
-        'user': user
+        'user': user,
+        'user_id': user_id
         }
         rbac(self, 'modify', params)
         
         
   def post(self, user_id):
     iden = int(user_id)
-    user = ndb.Key('User', iden)
-    user.password=self.request.get('password'),
-    user.email_address=self.request.get('email_address'),
-    user.verified=self.request.get('verified'),
-    user.name=self.request.get('name'),
-    user.last_name=self.request.get('last_name'),
+    user = User.get_by_id(iden)
+    timestamp = datetime.datetime.strftime((datetime.datetime.now()),'%Y-%m-%d %H:%M:%S.%f')
+    #user.created=self.request.get('created')
+    user.password=self.request.get('password')
+    user.email_address=self.request.get('email_address')
+    user.verified=self.request.get('verified')
+    user.name=self.request.get('name')
+    user.last_name=self.request.get('last_name')
     user.role=self.request.get('role')
     user.put()
-    
     return webapp2.redirect('/users')
   
 # Start of Work Book Section
@@ -525,7 +528,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route ('/au1v', au1v_Handler, name='au1v'),
     webapp2.Route ('/u1', u1_Handler, name='u1'),
     webapp2.Route ('/users', userHandler, name='uAdmin'),
-    webapp2.Route ('/modify/<:\d+>', modifyUser, name='modify')
+    webapp2.Route (r'/modify/<:\w+>', modifyUser, name='modify')
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)
