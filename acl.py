@@ -5,7 +5,7 @@
 Guest = ['signup']
 Student = ['workbook','u1','u2', 'signup']
 Tutor = ['au1e','au1v', 'signup']
-Admin = ['admin','adminU','au1c','au1e','au1v', 'users', 'modify', 'signup', 'verification']
+Admin = ['admin','adminU','au1c','au1e','au1v', 'users', 'modify', 'signup', 'verification', 'workbook', 'u1']
 
 
 

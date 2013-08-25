@@ -7,6 +7,7 @@
                     <tr>
                       <th>Name</th>
                       <th>Role</th>
+                      <th>Email Address</th>
                       <th>Verified</th>
 		      <th>Modified Date</th>
                       <th></th>
@@ -22,12 +23,10 @@
                     <tr>
 			<td>{{user.name}} {{user.last_name}}</td>
 			<td>{{user.role}}</td>
+                        <td>{{user.email_address}}</td>
 			<td>{{user.verified}}</td>
 			<td>{{user.updated}}</td>
-			<td>{{user.email_address}}</td>
-			<td>{{user.verified}}</td>
-			<td>{{user.created}}</td>
-			<td>{{user.auth_ids}}</td>
+			
 			<td><a href="modify/{{user.key.id()}}" button type="button" class="btn btn-info">Modify</a></td>
 		    </tr>
 		{% endfor %}

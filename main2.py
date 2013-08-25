@@ -410,10 +410,10 @@ class u1_Handler(BaseHandler):
 
 class au1c_Handler(BaseHandler):
     #Give ability to CREATE Unit details
-    
     @user_required    
     def post(self):
-        author = users.get_current_user()
+        u = self.user_info
+        author = u['name']
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
                 ftype=self.request.get('ftype'),
                 outcome1=self.request.get('outcome1'),
