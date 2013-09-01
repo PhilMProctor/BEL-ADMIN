@@ -135,11 +135,12 @@ class MainHandler(BaseHandler):
 
 class SignupHandler(BaseHandler):
   def get(self):
-    u = self.user_info
+    """u = self.user_info
     username = u['name'] if u else None
     params = {'username': username}
-    rbac(self, 'signup', params)
-    #self.render_template('signup.html', params)
+    rbac(self, 'signup', params)"""
+    params = {'username': 'welcome'}
+    self.render_template('signup.html', params)
 
   def post(self):
     user_name = self.request.get('username')

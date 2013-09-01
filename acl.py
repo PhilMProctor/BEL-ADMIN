@@ -16,7 +16,7 @@ def acl_check(role, page):
     elif role == 'Admin':
         if page in Admin:
             return True
-    if role == "":
+    elif role == "NoneType":
         if page in Guest:
             return True
     
