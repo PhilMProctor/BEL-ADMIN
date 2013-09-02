@@ -1,0 +1,50 @@
+{% extends "admin.html" %}
+{% block Unit %}
+<div class="container">
+    <div class="span9 offset1">
+        <form action="" method="post">
+            <fieldset>
+                <legend>Unit {{wUnit.unit_no}} Administration</legend>
+                <label>Unit Number [1 - 9]</label>
+                <input type="text" name="unit_no" id="unit_no" value="{{wUnit.unit_no}}" />
+                <label>Unit Title</label>
+                <input type="text" name="unit_title" id="unit_title" value="{{wUnit.unit_title}}" />
+                <label>Unit Description</label>
+                <input type="text" name="unit_des" id="unit_des" value="{{wUnit.unit_des}}" />
+                <label>Frame Type</label>
+                <select name="ftype" id="ftype">
+                    <option>Template</option>
+                    <option>Page</option>
+                </select>
+            <!--</fieldset> -->
+            <fieldset>
+                <label>Outcome 1</label>
+                <input type="text" name="outcome1" value="{{wUnit.outcome1}}" id="outcome1"/>
+                <label>Narrative 1</label>
+                <textarea class="comments" name="narrative1" id="narrative1">{{wUnit.narrative1}}</textarea>
+                <label>Narrative 2</label>
+                <textarea class="comments" name="narrative2" id="narrative2">{{wUnit.narrative2}}</textarea>
+                <label>Narrative 3</label>
+                <textarea class="comments" name="narrative3" id="narrative3">{{wUnit.narrative3}}</textarea>
+                <label>Outcome 2</label>
+                <input type="text" name="outcome2" value="{{wUnit.outcome2}}" id="outcome2"/>
+                <label>Narrative 4</label>
+                <textarea class="comments" name="narrative4" id="narrative4">{{wUnit.narrative4}}</textarea>
+                <label>Narrative 5</label>
+                <textarea class="comments" name="narrative5" id="narrative5">{{wUnit.narrative5}}</textarea>
+                <label>Narrative 6</label>
+                <textarea class="comments" name="narrative6" id="narrative6">{{wUnit.narrative6}}</textarea>
+                <label>Outcome 3</label>
+                <input type="text" name="outcome3" value="{{wUnit.outcome3}}" id="outcome3"/>
+                <label>Narrative 7</label>
+                <textarea class="comments" name="narrative7" id="narrative7">{{wUnit.narrative7}}</textarea>
+                <label>Narrative 8</label>
+                <textarea class="comments" name="narrative8" id="narrative8">{{wUnit.narrative8}}</textarea>
+                <label>Outcome 4</label>
+                <input type="text" name="outcome4" value="{{wUnit.outcome4}}" id="outcome4"/>
+            </fieldset>
+            <button type="submit" class="btn btn-info">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock Unit %}

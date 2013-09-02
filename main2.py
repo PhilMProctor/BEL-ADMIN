@@ -283,8 +283,10 @@ class AdminU_Handler(BaseHandler):
     @user_required
     def get(self):
         u = self.user_info
+        wUnits = wUnit1.query(wUnit1.ftype == "Template")
         username = u['name'] if u else None
-        params = {'username': username}
+        params = {'username': username,
+                  'wUnits': wUnits}
         rbac(self, 'adminU', params)
 
 class LoginHandler(BaseHandler):
@@ -409,7 +411,7 @@ class u1_Handler(BaseHandler):
 # End of Work Book Section
 # Start of Work Book Admin Section
 
-class au1c_Handler(BaseHandler):
+class auc_Handler(BaseHandler):
     #Give ability to CREATE Unit details
     @user_required    
     def post(self):
@@ -445,61 +447,65 @@ class au1c_Handler(BaseHandler):
         params = {
         'username': username
         }
-        rbac(self, 'au1c', params)
+        rbac(self, 'auc', params)
         
-class au1v_Handler(BaseHandler):
+class auv_Handler(BaseHandler):
     #Give ability to VIEW Unit details
     @user_required
-    def get(self):
+    def get(self, wUnit_id):
         u = self.user_info
         username = u['name']
-        unitNo = wUnit1.query(wUnit1.ftype == "Template")
+        #wUnits = wUnit1.query(wUnit1.ftype == "Template")
+        iden = int(wUnit_id)
+        Unit = wUnit1.get_by_id(iden)
         params = {
-        'unitNo' : unitNo,
+        'Unit' : Unit,
         'username': username
         }
-        rbac(self, 'au1v', params)
+        rbac(self, 'auv', params)
         
         
-class au1e_Handler(BaseHandler):
+class aue_Handler(BaseHandler):
     #Give ability to EDIT Unit details
     @user_required 
-    def post(self):
+    def post(self, wUnit_id):
         u = self.user_info
         author = u['name']
-
-        unit1 = wUnit1(unit_title=self.request.get('unit_title'),
-                unit_no=self.request.get('unit_no'),
-                unit_des=sel.request.get('unit_des'),
-                ftype=self.request.get('ftype'),
-                outcome1=self.request.get('outcome1'),
-                outcome2=self.request.get('outcome2'),
-                outcome3=self.request.get('outcome3'),
-                outcome4=self.request.get('outcome4'),
-                narrative1=self.request.get('narrative1'),
-                narrative2=self.request.get('narrative2'),
-                narrative3=self.request.get('narrative3'),
-                narrative4=self.request.get('narrative4'),
-                narrative5=self.request.get('narrative5'),
-                narrative6=self.request.get('narrative6'),
-                narrative7=self.request.get('narrative7'),
-                narrative8=self.request.get('narrative8'),
-                narrative9=self.request.get('narrative9'),
-                narrative10=self.request.get('narrative10'),
-                author=str(author))
-
-        unit1.put()
+        iden = int(wUnit_id)
+        Unit = wUnit1.get_by_id(iden)
+        Unit.unit_title=self.request.get('unit_title')
+        Unit.unit_no=self.request.get('unit_no')
+        Unit.unit_des=self.request.get('unit_des')
+        Unit.ftype=self.request.get('ftype')
+        Unit.outcome1=self.request.get('outcome1')
+        Unit.outcome2=self.request.get('outcome2')
+        Unit.outcome3=self.request.get('outcome3')
+        Unit.outcome4=self.request.get('outcome4')
+        Unit.narrative1=self.request.get('narrative1')
+        Unit.narrative2=self.request.get('narrative2')
+        Unit.narrative3=self.request.get('narrative3')
+        Unit.narrative4=self.request.get('narrative4')
+        Unit.narrative5=self.request.get('narrative5')
+        Unit.narrative6=self.request.get('narrative6')
+        Unit.narrative7=self.request.get('narrative7')
+        Unit.narrative8=self.request.get('narrative8')
+        Unit.narrative9=self.request.get('narrative9')
+        Unit.narrative10=self.request.get('narrative10')
+        Unit.author=str(author)
+        Unit.put()
         return webapp2.redirect('/adminU')
     
-    def get(self):
+    def get(self, wUnit_id):
         u = self.user_info
         username = u['name']
-        unitNo = wUnit1.query(wUnit1.ftype == "Template")
+        #unitNo = wUnit1.query(wUnit1.ftype == "Template")
+        iden = int(wUnit_id)
+        wUnit = wUnit1.get_by_id(iden)
         params = {
-        'unitNo' : unitNo,
+        'wUnit' : wUnit,
         'username': username
         }
-        rbac(self, 'au1e', params)
+        rbac(self, 'aue', params)
         
 class u1Handler(BaseHandler):
   #Load main workbook page
@@ -528,9 +534,9 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
     webapp2.Route('/workbook', WorkbookHandler, name='workbook'),
-    webapp2.Route ('/au1c', au1c_Handler, name='au1c'),
-    webapp2.Route ('/au1e', au1e_Handler, name='au1e'),
-    webapp2.Route ('/au1v', au1v_Handler, name='au1v'),
+    webapp2.Route ('/auc', auc_Handler, name='auc'),
+    webapp2.Route (r'/aue/<:\w+>', aue_Handler, name='aue'),
+    webapp2.Route (r'/auv/<:\w+>', auv_Handler, name='auv'),
     webapp2.Route ('/u1', u1_Handler, name='u1'),
     webapp2.Route ('/users', userHandler, name='uAdmin'),
     webapp2.Route (r'/modify/<:\w+>', modifyUser, name='modify')

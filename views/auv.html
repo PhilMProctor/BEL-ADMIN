@@ -2,41 +2,39 @@
 {% block Unit %}
 <div class="container">
     <div class="fluid-row"
-         {% for item in unitNo %}
         <div class="span9 offset2">
             
-            <h3>Unit {{ item.unit_no }} - {{ item.unit_title }}</h3>
-            <h4>{{ item.outcome1 }}</h4>
-            <p class="narrative">{{ item.narrative1 }}</p>
+            <h3>Unit {{ Unit.unit_no }} - {{ Unit.unit_title }}</h3>
+            <h4>{{ Unit.outcome1 }}</h4>
+            <p class="narrative">{{ Unit.narrative1 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative2 }}</p>
+            <p class="narrative">{{ Unit.narrative2 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative3 }}</p>
+            <p class="narrative">{{ Unit.narrative3 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <h4>{{ item.outcome2 }}</h4>
-            <p class="narrative">{{ item.narrative4 }}</p>
+            <h4>{{ Unit.outcome2 }}</h4>
+            <p class="narrative">{{ Unit.narrative4 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative5 }}</p>
+            <p class="narrative">{{ Unit.narrative5 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative6 }}</p>
+            <p class="narrative">{{ Unit.narrative6 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative7 }}</p>
+            <p class="narrative">{{ Unit.narrative7 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <h4>{{ item.outcome3 }}</h4>
-            <p class="narrative">{{ item.narrative8 }}</p>
+            <h4>{{ Unit.outcome3 }}</h4>
+            <p class="narrative">{{ Unit.narrative8 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            <p class="narrative">{{ item.narrative9 }}</p>
+            <p class="narrative">{{ Unit.narrative9 }}</p>
             <textarea class="comments">Student responses...</textarea>
             <p class="text-right"><a href="#" class="btn btn-danger">Edit</a></p>
-            {% endfor %}
         </div>
     </div>    
 </div>

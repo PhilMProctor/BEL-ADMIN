@@ -18,7 +18,7 @@ handlers:
   script: main2.application
   secure: always
   
-- url: /au1[cve]
+- url: /au[cve]
   script: main2.application
   secure: always
   

@@ -13,86 +13,15 @@
                     </tr>
                   </thead>
                   <tbody>
+                {% for wUnit in wUnits %}
                     <tr>
-                      <td>1</td>
-                      <td>Plan a walk for a group in lowland countryside</td>
-                      <td><a href="/au1v" class="btn btn-info">View</a></td>
-                      <td><a href="/au1e" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="/au1c" class="btn btn-danger">Create</a></td>
-                      
+                      <td>{{wUnit.unit_no}}</td>
+                      <td>{{wUnit.unit_title}}</td>
+                      <td><a href="/auv/{{wUnit.key.id()}}" class="btn btn-info">View</a></td>
+                      <td><a href="aue/{{wUnit.key.id()}}" class="btn btn-info">Edit</a></td>
+                      <td><a href="/auc" class="btn btn-danger">Create</a></td>
                     </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Prepare for a walk in lowland countryside</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Establish and maintain safe practice during walks or expeditions</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Lead sessions that impart the knowledge and skills required to walk in lowland countryside</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>Lead a walk in lowland countryside</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr><tr>
-                      <td>6</td>
-                      <td>Navigation for the Walk Leader</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>7</td>
-                      <td>Manage and develop personal walking leadership experience</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>8</td>
-                      <td>Management of unaccompanied groups in the countryside</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                      <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
-                    <tr>
-                      <td>9</td>
-                      <td>Campcraft for the Expedition Leader</td>
-                      <td><a href="#" class="btn btn-info">View</a></td>
-                      <td><a href="#" class="btn btn-info">Edit</a></td>
-                       <td><a href="#" class="btn btn-info">Description</a></td>
-                      <td><a href="#" class="btn btn-danger">Create</a></td>
-                      
-                    </tr>
+                {% endfor %}
                   </tbody>
         </table>
     </div>
