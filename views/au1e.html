@@ -5,9 +5,11 @@
     <div class="span9 offset1">
         <form action="" method="post">
             <fieldset>
-                <legend>Unit 1 Administration</legend>
+                <legend>Unit {{item.unit_no}} Administration</legend>
                 <label>Unit Title</label>
-                <input type="text" name="title" id="unit_title" placeholder="Type something..">
+                <input type="text" name="unit_title" id="unit_title" value="{{item.unit_title" />
+                <label>Unit Description</label>
+                <input type="text" name="unit_des" id="unit_des" value="{{item.unit.des}}"/>
                 <label>Frame Type</label>
                 <select name="ftype" id="ftype">
                     <option>Template</option>
