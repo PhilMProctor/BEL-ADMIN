@@ -416,6 +416,8 @@ class au1c_Handler(BaseHandler):
         u = self.user_info
         author = u['name']
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
+                unit_no=self.request.get('unit_no'),
+                unit_des=sel.request.get('unit_des'),
                 ftype=self.request.get('ftype'),
                 outcome1=self.request.get('outcome1'),
                 outcome2=self.request.get('outcome2'),
@@ -467,6 +469,8 @@ class au1e_Handler(BaseHandler):
         author = u['name']
 
         unit1 = wUnit1(unit_title=self.request.get('unit_title'),
+                unit_no=self.request.get('unit_no'),
+                unit_des=sel.request.get('unit_des'),
                 ftype=self.request.get('ftype'),
                 outcome1=self.request.get('outcome1'),
                 outcome2=self.request.get('outcome2'),

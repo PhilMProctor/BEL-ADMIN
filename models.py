@@ -40,18 +40,13 @@ class User(webapp2_extras.appengine.auth.models.User):
     if valid_token and user:
         timestamp = int(time.mktime(valid_token.created.timetuple()))
         return user, timestamp
-    
-class uDescription(ndb.Model):
-    #Unit descriptions
-    number = ndb.StringProperty()
-    title = ndb.StringProperty()
-    description = ndb.StringProperty()
-    
+ 
 
 class wUnit1(ndb.Model):
     #Workbook Unit 1 Datastore
     unit_title = ndb.StringProperty()
     unit_no = ndb.StringProperty()
+    unit_des = ndb.StringProperty()
     outcome1 = ndb.StringProperty()
     outcome2 = ndb.StringProperty()
     outcome3 = ndb.StringProperty()
