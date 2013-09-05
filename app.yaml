@@ -9,6 +9,12 @@ handlers:
   static_dir: css
 - url: /js
   static_dir: js
+- url: /img
+  static_dir: img
+  
+- url: /favicon\.ico
+  static_files: img/favicon.ico
+  upload: img/favicon\.ico
 
 # Admin pages
 - url: /admin[USP]
@@ -26,6 +32,18 @@ handlers:
   script: main2.application
   secure: always
   
+- url: /loader
+  script: main2.application
+  secure: always
+  
+- url: /upload
+  script: main2.application
+  secure: always
+  
+- url: /serve
+  script: main2.application
+  secure: always
+  
 # Main Pages
 - url: /portal
   script: main2.application
@@ -37,6 +55,10 @@ handlers:
 # Student Pages
 
 - url: /su[cve]
+  script: main2.application
+  secure: always
+  
+- url: /chk
   script: main2.application
   secure: always
   

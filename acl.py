@@ -3,10 +3,10 @@
 
 
 Guest = ['signup']
-Student = ['workbook','u1','u2', 'signup', 'suc', 'sue', 'suv']
+Student = ['workbook','u1','u2', 'signup', 'suc', 'sue', 'suv', 'chk']
 Tutor = ['aue','auv', 'signup']
 Admin = ['admin','adminU','auc','aue','auv', 'users', 'modify', 'signup', 'verification', 'workbook', 'u1',
-         'suc', 'sue', 'suv']
+         'suc', 'sue', 'suv', 'chk', 'loader']
 
 
 

@@ -9,9 +9,12 @@ import webapp2
 import time
 import datetime
 import sys
+import urllib
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
@@ -52,7 +55,7 @@ def rbac(self, str, params):
     self.render_template('message.html', {'role' : role})
     
 def pageCheck(self, username, unitNo):
-    uChecks = wUnit1.query(wUnit1.author == username, wUnit1.unit_no == unitNo, wUnit1.ftype == 'Page')
+    uChecks = wUnit1.query(wUnit1.author == username, wUnit1.unit_no == unitNo, wUnit1.ftype == 'Page', wUnit1.editS == "Started")
     uCheck = uChecks.fetch(1)
     if uCheck:
       status = True
@@ -294,7 +297,7 @@ class AdminU_Handler(BaseHandler):
     @user_required
     def get(self):
         u = self.user_info
-        wUnits = wUnit1.query(wUnit1.ftype == "Template")
+        wUnits = wUnit1.query(wUnit1.ftype == "Template").order(wUnit1.unit_no)
         username = u['name'] if u else None
         params = {'username': username,
                   'wUnits': wUnits}
@@ -384,7 +387,6 @@ class modifyUser(BaseHandler):
     iden = int(user_id)
     user = User.get_by_id(iden)
     timestamp = datetime.datetime.strftime((datetime.datetime.now()),'%Y-%m-%d %H:%M:%S.%f')
-    #user.created=self.request.get('created')
     user.password=self.request.get('password')
     user.email_address=self.request.get('email_address')
     user.verified=self.request.get('verified')
@@ -401,10 +403,9 @@ class WorkbookHandler(BaseHandler):
   @user_required
   def get(self):
         u = self.user_info
-        wUnits = wUnit1.query(wUnit1.ftype == "Template")
         username = u['name']
         unitNo = '1'
-        
+        wUnits = wUnit1.query(wUnit1.ftype == "Template").order(wUnit1.unit_no)
         params = {
         'username': username,
         'wUnits': wUnits,
@@ -423,7 +424,7 @@ class u1_Handler(BaseHandler):
         }
         rbac(self, 'u1', params)
 
-class Std_Unit_Create(BaseHandler):
+class Stu_Unit_Create(BaseHandler):
   #Allows students to start new Unit page
   @user_required
   def get(self, wUnit_id):
@@ -459,12 +460,73 @@ class Std_Unit_Create(BaseHandler):
                 narrative8=self.request.get('narrative8'),
                 narrative9=self.request.get('narrative9'),
                 narrative10=self.request.get('narrative10'),
+                editS=self.request.get('editS'),
                 author=str(author))
         Page.put()
         return self.redirect('/workbook')
+      
+class Stu_Unit_Edit(BaseHandler):
+  #Allows students to start new Unit page
+  @user_required
+  def get(self, wUnit_id):
+        u = self.user_info
+        username = u['name']
+        iden = int(wUnit_id)
+        Unit = wUnit1.get_by_id(iden)
+        
+        params = {
+          'username': username,
+          'Unit': Unit,
+        }
+        rbac(self, 'sue', params)
+        
+  def post(self, wUnit_id):
+        u = self.user_info
+        author = u['name']
+        iden = int(wUnit_id)
+        Unit = wUnit1.get_by_id(iden)
+        Unit.unit_title=self.request.get('unit_title')
+        Unit.unit_no=self.request.get('unit_no')
+        Unit.unit_des=self.request.get('unit_des')
+        Unit.ftype=self.request.get('ftype')
+        Unit.outcome1=self.request.get('outcome1')
+        Unit.outcome2=self.request.get('outcome2')
+        Unit.outcome3=self.request.get('outcome3')
+        Unit.outcome4=self.request.get('outcome4')
+        Unit.narrative1=self.request.get('narrative1')
+        Unit.narrative2=self.request.get('narrative2')
+        Unit.narrative3=self.request.get('narrative3')
+        Unit.narrative4=self.request.get('narrative4')
+        Unit.narrative5=self.request.get('narrative5')
+        Unit.narrative6=self.request.get('narrative6')
+        Unit.narrative7=self.request.get('narrative7')
+        Unit.narrative8=self.request.get('narrative8')
+        Unit.narrative9=self.request.get('narrative9')
+        Unit.narrative10=self.request.get('narrative10')
+        Unit.editS=self.request.get('editS')
+        author=str(author)
+        Unit.put()
+        return self.redirect('/workbook')
+      
+class chk_Handler(BaseHandler):
+  #Checks whether student page exists and route accordingly
+  def get(self, unitSeq):
+    u = self.user_info
+    username = u['name']
+    unitNo = unitSeq.split('A')
+    PageCheck = wUnit1.query(wUnit1.author == username, wUnit1.unit_no == unitNo[0], wUnit1.ftype == 'Page').fetch(1)
+    for check in PageCheck:
+      pCheck = str(check.key.id())
+    
+    if PageCheck:
+      url='/sue/' + pCheck
+      self.redirect(url)
+    else:
+      url='/suc/'+ unitNo[1]
+      self.redirect(url)
   
-
 # End of Work Book Section
+#
 # Start of Work Book Admin Section
 
 class auc_Handler(BaseHandler):
@@ -511,7 +573,6 @@ class auv_Handler(BaseHandler):
     def get(self, wUnit_id):
         u = self.user_info
         username = u['name']
-        #wUnits = wUnit1.query(wUnit1.ftype == "Template")
         iden = int(wUnit_id)
         Unit = wUnit1.get_by_id(iden)
         params = {
@@ -554,7 +615,6 @@ class aue_Handler(BaseHandler):
     def get(self, wUnit_id):
         u = self.user_info
         username = u['name']
-        #unitNo = wUnit1.query(wUnit1.ftype == "Template")
         iden = int(wUnit_id)
         wUnit = wUnit1.get_by_id(iden)
         params = {
@@ -574,6 +634,31 @@ class u1Handler(BaseHandler):
         }
         rbac(self, 'u1', params)
         
+class load_Handler(BaseHandler):
+  #Load files into Blobstore
+  def get(self):
+    upload_url = blobstore.create_upload_url('/upload')
+    u = self.user_info
+    username = u['name']
+    params = {
+        'username': username,
+        'upload_url': upload_url
+        }
+    rbac(self, 'loader', params)
+    
+class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+  def post(self):
+    upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+    blob_info = upload_files[0]
+    fin_url = '/serve/' + blob_info.key()
+    self.redirect(fin_url)
+
+class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
+  def get(self, resource):
+    resource = str(urllib.unquote(resource))
+    blob_info = blobstore.BlobInfo.get(resource)
+    self.send_blob(blob_info)
+    
 # End of Work Book Admin Section
 
 application = webapp2.WSGIApplication([
@@ -590,10 +675,15 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/forgot', ForgotPasswordHandler, name='forgot'),
     webapp2.Route('/authenticated', AuthenticatedHandler, name='authenticated'),
     webapp2.Route('/workbook', WorkbookHandler, name='workbook'),
-    webapp2.Route(r'/suc/<:\w+>', Std_Unit_Create, name='suc'),
+    webapp2.Route(r'/suc/<:\w+>', Stu_Unit_Create, name='suc'),
+    webapp2.Route(r'/sue/<:\w+>', Stu_Unit_Edit, name='sue'),
+    webapp2.Route(r'/chk/<:\w+>', chk_Handler, name='chk'),
     webapp2.Route ('/auc', auc_Handler, name='auc'),
     webapp2.Route (r'/aue/<:\w+>', aue_Handler, name='aue'),
     webapp2.Route (r'/auv/<:\w+>', auv_Handler, name='auv'),
+    webapp2.Route ('/loader', load_Handler, name='loader'),
+    webapp2.Route ('upload', UploadHandler, name='upload'),
+    webapp2.Route ('/serve/([^/]+)?', ServeHandler, name='serve'),
     webapp2.Route ('/u1', u1_Handler, name='u1'),
     webapp2.Route ('/users', userHandler, name='uAdmin'),
     webapp2.Route (r'/modify/<:\w+>', modifyUser, name='modify')

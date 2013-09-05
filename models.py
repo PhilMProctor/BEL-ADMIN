@@ -62,6 +62,7 @@ class wUnit1(ndb.Model):
     narrative9 = ndb.TextProperty()
     narrative10 = ndb.TextProperty()
     author = ndb.StringProperty()
+    editS = ndb.StringProperty()
     ftype = ndb.StringProperty(required=False, choices=set(["Template", "Page"]))
     date = ndb.DateTimeProperty(auto_now_add=True)
 
