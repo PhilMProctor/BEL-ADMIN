@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="admin-unit">
+        <h1>The Library</h1>
+        <p>This is where you can store personal documents and access course related material</p>
+    </div>
+	<div class="span3">
+	<div class="library-unit"><h3>Personal</h3></div>
+	</div>
+	<div class=span3>
+	<div class="library-unit"><h3>Course</h3></div>
+	{% for object in bucketlist %}
+                    <tr>
+                        <td>{{object['name']}}</td>
+                    </tr>
+                {% endfor %}
+	</div>
+	<div class=span3>
+	<div class="library-unit"><h3>Administration</h3></div>
+	</div>
+    
+</div>
+
+{% block Unit %}
+{% endblock Unit %}
+{% endblock content %}
+
