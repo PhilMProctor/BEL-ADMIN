@@ -10,11 +10,16 @@ import time
 import datetime
 import sys
 import urllib
+import StringIO
+import shutil
+import tempfile
+
 
 from webapp2_extras import auth
 from webapp2_extras import sessions
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+import cloudstorage as gcs
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
@@ -22,6 +27,11 @@ from webapp2_extras.auth import InvalidPasswordError
 from models import wUnit1, User, course
 from acl import acl_check
 
+# URI scheme for Google Cloud Storage
+Rbucket = '/bel-lib' 		# Root bucket
+Abucket = '/bel-admin' 		# Admin bucket
+Cbucket = '/bel-course' 	# Course bucket
+Sbucket = '/bel-student' 	# Student bucket
 
 
 
@@ -659,6 +669,33 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     blob_info = blobstore.BlobInfo.get(resource)
     self.send_blob(blob_info)
     
+class LibraryHandler(BaseHandler):
+    @user_required
+    def get(self):
+      		u = self.user_info
+      		username = u['name']
+		# storage params
+		bucketlist = gcs.listbucket(Rbucket)
+		params = {
+		'username': username,
+		'bucketlist': bucketlist
+		}
+      		rbac(self, 'library', params)
+
+class gcsHandler(BaseHandler):
+	@user_required
+	def get(self):
+		u = self.user_info
+		username = u['name']
+		# storage params
+		bucketlist = gcs.listbucket(Rbucket)
+		params = {
+		'username': username,
+		'bucketlist': bucket_list
+		}
+		rbac(self, 'gcs', params)
+
+
 # End of Work Book Admin Section
 
 application = webapp2.WSGIApplication([
@@ -678,15 +715,17 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/suc/<:\w+>', Stu_Unit_Create, name='suc'),
     webapp2.Route(r'/sue/<:\w+>', Stu_Unit_Edit, name='sue'),
     webapp2.Route(r'/chk/<:\w+>', chk_Handler, name='chk'),
-    webapp2.Route ('/auc', auc_Handler, name='auc'),
-    webapp2.Route (r'/aue/<:\w+>', aue_Handler, name='aue'),
-    webapp2.Route (r'/auv/<:\w+>', auv_Handler, name='auv'),
-    webapp2.Route ('/loader', load_Handler, name='loader'),
-    webapp2.Route ('upload', UploadHandler, name='upload'),
-    webapp2.Route ('/serve/([^/]+)?', ServeHandler, name='serve'),
-    webapp2.Route ('/u1', u1_Handler, name='u1'),
-    webapp2.Route ('/users', userHandler, name='uAdmin'),
-    webapp2.Route (r'/modify/<:\w+>', modifyUser, name='modify')
+    webapp2.Route('/auc', auc_Handler, name='auc'),
+    webapp2.Route(r'/aue/<:\w+>', aue_Handler, name='aue'),
+    webapp2.Route(r'/auv/<:\w+>', auv_Handler, name='auv'),
+    webapp2.Route('/loader', load_Handler, name='loader'),
+    webapp2.Route('upload', UploadHandler, name='upload'),
+    webapp2.Route('/library', LibraryHandler, name="library"),
+    webapp2.Route('/gcs', gcsHandler, name="gcs"),
+    webapp2.Route('/serve/([^/]+)?', ServeHandler, name='serve'),
+    webapp2.Route('/u1', u1_Handler, name='u1'),
+    webapp2.Route('/users', userHandler, name='uAdmin'),
+    webapp2.Route(r'/modify/<:\w+>', modifyUser, name='modify')
 ], debug=True, config=config)
 
 logging.getLogger().setLevel(logging.DEBUG)

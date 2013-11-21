@@ -6167,6 +6167,20 @@ a.badge:focus {
           border-radius: 6px;
 }
 
+/*Admin Portal Banner */
+.library-unit {
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 30px;
+  color: inherit;
+  background-color: #EBFBE6;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
 /*Main Portal Banner */
 .portal-unit {
   padding: 20px;

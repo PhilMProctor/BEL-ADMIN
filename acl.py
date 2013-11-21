@@ -3,9 +3,9 @@
 
 
 Guest = ['signup']
-Student = ['workbook','u1','u2', 'signup', 'suc', 'sue', 'suv', 'chk']
+Student = ['workbook','u1','u2', 'signup', 'suc', 'sue', 'suv', 'chk', 'library']
 Tutor = ['aue','auv', 'signup']
-Admin = ['admin','adminU','auc','aue','auv', 'users', 'modify', 'signup', 'verification', 'workbook', 'u1',
+Admin = ['library', 'admin','adminU','auc','aue','auv', 'users', 'modify', 'signup', 'verification', 'workbook', 'u1',
          'suc', 'sue', 'suv', 'chk', 'loader']
 
 

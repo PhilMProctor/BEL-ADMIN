@@ -207,6 +207,7 @@ var/
 sdist/
 develop-eggs/
 .installed.cfg
+#cloudstorage/
 
 # Installer logs
 pip-log.txt
