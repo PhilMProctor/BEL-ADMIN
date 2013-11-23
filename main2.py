@@ -33,7 +33,7 @@ Abucket = '/bel-admin' 		# Admin bucket
 Cbucket = '/bel-course' 	# Course bucket
 Sbucket = '/bel-student' 	# Student bucket
 
-
+filename = Rbucket + Cbucket + '/sample.txt'
 
 #timestamp=datetime.datetime.time(datetime.datetime.now())
 
@@ -671,14 +671,22 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     
 class LibraryHandler(BaseHandler):
     @user_required
+    def create_file(self, filename):
+		gcs_file = gcs.open(filename, 'w', content_type='text/plain')
+		gcs_file.write('test file\n')
+		gcs_file.close()
+    def list_bucket(self, bucket):
+		gcs_bucket = gcs.listbucket(Rbucket)
+
     def get(self):
+		self.create_file(filename)
       		u = self.user_info
       		username = u['name']
+		bucket = Cbucket
 		# storage params
-		bucketlist = gcs.listbucket(Rbucket)
+		bucketlist = self.list_bucket(bucket, delimiter="/")
 		params = {
-		'username': username,
-		'bucketlist': bucketlist
+		'username': username
 		}
       		rbac(self, 'library', params)
 
@@ -690,8 +698,7 @@ class gcsHandler(BaseHandler):
 		# storage params
 		bucketlist = gcs.listbucket(Rbucket)
 		params = {
-		'username': username,
-		'bucketlist': bucket_list
+		'username': username
 		}
 		rbac(self, 'gcs', params)
 
