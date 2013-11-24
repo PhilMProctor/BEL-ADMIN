@@ -647,7 +647,7 @@ class u1Handler(BaseHandler):
 class load_Handler(BaseHandler):
   #Load files into Blobstore
   def get(self):
-	upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='bel-adm')
+	upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='bel-test')
     #upload_url = blobstore.create_upload_url('/upload')
     	u = self.user_info
     	username = u['name']
