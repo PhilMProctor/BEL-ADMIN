@@ -207,7 +207,12 @@ var/
 sdist/
 develop-eggs/
 .installed.cfg
+
+# Developer server test elements
+#
 #cloudstorage/
+storage/
+*.db*
 
 # Installer logs
 pip-log.txt
