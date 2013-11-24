@@ -28,12 +28,12 @@ from models import wUnit1, User, course
 from acl import acl_check
 
 # URI scheme for Google Cloud Storage
-Rbucket = '/bel-lib' 		# Root bucket
+bucket = '/bel-lib' 		# Root bucket
 Abucket = '/bel-admin' 		# Admin bucket
 Cbucket = '/bel-course' 	# Course bucket
 Sbucket = '/bel-student' 	# Student bucket
 
-filename = Rbucket + Cbucket + '/sample.txt'
+filename = bucket + '/sample.txt'
 
 #timestamp=datetime.datetime.time(datetime.datetime.now())
 
@@ -647,14 +647,15 @@ class u1Handler(BaseHandler):
 class load_Handler(BaseHandler):
   #Load files into Blobstore
   def get(self):
-    upload_url = blobstore.create_upload_url('/upload')
-    u = self.user_info
-    username = u['name']
-    params = {
-        'username': username,
-        'upload_url': upload_url
-        }
-    rbac(self, 'loader', params)
+	upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='bel-adm')
+    #upload_url = blobstore.create_upload_url('/upload')
+    	u = self.user_info
+    	username = u['name']
+    	params = {
+        	'username': username,
+        	'upload_url': upload_url
+        	}
+    	rbac(self, 'loader', params)
     
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
@@ -694,15 +695,20 @@ class gcsHandler(BaseHandler):
 	@user_required
 	def get(self):
 		u = self.user_info
+		gcs_file = gcs.open(filename, 'w', content_type='text/plain', options={'x-goog-acl': 'public-read'})
+		gcs_file.write('an interesting day\n')
+		gcs_file.close()
+		stat = gcs.stat(filename)
 		username = u['name']
 		# storage params
-		bucketlist = gcs.listbucket(Rbucket)
 		params = {
-		'username': username
+		'username': username,
+		'stat': stat 
 		}
-		rbac(self, 'gcs', params)
+		rbac(self, 'cloud', params)
 
-
+#	def list_bucket(self, bucket):
+			
 # End of Work Book Admin Section
 
 application = webapp2.WSGIApplication([
@@ -728,7 +734,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/loader', load_Handler, name='loader'),
     webapp2.Route('upload', UploadHandler, name='upload'),
     webapp2.Route('/library', LibraryHandler, name="library"),
-    webapp2.Route('/gcs', gcsHandler, name="gcs"),
+    webapp2.Route('/cloud', gcsHandler, name="gcs"),
     webapp2.Route('/serve/([^/]+)?', ServeHandler, name='serve'),
     webapp2.Route('/u1', u1_Handler, name='u1'),
     webapp2.Route('/users', userHandler, name='uAdmin'),
