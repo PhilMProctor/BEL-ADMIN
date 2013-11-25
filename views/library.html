@@ -12,9 +12,9 @@
 	</div>
 	<div class=span3>
 	<div class="library-unit"><h3>Course</h3></div>
-	{% for object in bucketlist %}
+	{% for file in libContent %}
                     <tr>
-                        <td>{{object['name']}}</td>
+                        <td>{{file['filename']}}</td>
                     </tr>
                 {% endfor %}
 	</div>

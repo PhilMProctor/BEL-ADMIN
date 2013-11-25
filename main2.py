@@ -24,16 +24,16 @@ import cloudstorage as gcs
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 
-from models import wUnit1, User, course
+from models import wUnit1, User, course, UserUploads
 from acl import acl_check
 
 # URI scheme for Google Cloud Storage
-bucket = '/bel-lib' 		# Root bucket
+bucket = '/bel-test' 		# Root bucket
 Abucket = '/bel-admin' 		# Admin bucket
 Cbucket = '/bel-course' 	# Course bucket
 Sbucket = '/bel-student' 	# Student bucket
 
-filename = bucket + '/sample.txt'
+filename = bucket + '/125000 map.png'
 
 #timestamp=datetime.datetime.time(datetime.datetime.now())
 
@@ -659,10 +659,15 @@ class load_Handler(BaseHandler):
     
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
   def post(self):
-    upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-    blob_info = upload_files[0]
-    fin_url = '/serve/' + blob_info.key()
-    self.redirect(fin_url)
+	u = self.user_info
+	username = u['name']
+	upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+	blob_info = upload_files[0]
+
+	Uload = UserUploads(user=username,blob_key=blob_info.key())
+	Uload.put()
+	fin_url = '/serve/' + blob_info.key()
+	self.redirect(fin_url)
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
@@ -671,23 +676,14 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     self.send_blob(blob_info)
     
 class LibraryHandler(BaseHandler):
-    @user_required
-    def create_file(self, filename):
-		gcs_file = gcs.open(filename, 'w', content_type='text/plain')
-		gcs_file.write('test file\n')
-		gcs_file.close()
-    def list_bucket(self, bucket):
-		gcs_bucket = gcs.listbucket(Rbucket)
-
-    def get(self):
-		self.create_file(filename)
+	@user_required
+	def get(self):
       		u = self.user_info
+        	libContent = blobstore.BlobInfo.all()
       		username = u['name']
-		bucket = Cbucket
-		# storage params
-		bucketlist = self.list_bucket(bucket, delimiter="/")
 		params = {
-		'username': username
+		'username': username,
+		'libContent': libContent
 		}
       		rbac(self, 'library', params)
 

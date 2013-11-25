@@ -2,6 +2,8 @@ from google.appengine.ext import ndb
 from webapp2_extras import sessions
 from webapp2_extras import auth
 from webapp2_extras import security
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 
 
@@ -101,3 +103,7 @@ class Weekend(ndb.Model):
     resources = ndb.TextProperty()
     duration = ndb.TextProperty()
   
+class UserUploads(ndb.Model):
+	user = ndb.StringProperty()
+	blob_key = ndb.BlobKeyProperty()
+
