@@ -2,26 +2,48 @@
 {% block content %}
 <div class="container">
 
-      <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="admin-unit">
         <h1>The Library</h1>
         <p>This is where you can store personal documents and access course related material</p>
     </div>
-	<div class="span3">
-	<div class="library-unit"><h3>Personal</h3></div>
-	</div>
-	<div class=span3>
-	<div class="library-unit"><h3>Course</h3></div>
-	{% for file in libContent %}
+   <div class="span7">
+    <h4>Personal</h4>
+        <table class="table table-striped">
+            <thead>
                     <tr>
-                        <td>{{file['filename']}}</td>
+                      <th>File Name</th>
+		      <th>Last Modified</th>
                     </tr>
-                {% endfor %}
-	</div>
-	<div class=span3>
-	<div class="library-unit"><h3>Administration</h3></div>
-	</div>
-    
+            </thead>
+                  <tbody>
+		    {% for file in libContent %}
+                    <tr>
+			<td>{{ file.filename }}</td>
+			<td>{{ file.creation }}</td>
+			<td><a href="#" button type="button" class="btn btn-info">View</a></td>
+		    </tr>
+		    {% endfor %}
+                  </tbody>
+        </table>
+    <h4>Course</h4>
+        <table class="table table-striped">
+            <thead>
+                    <tr>
+                      <th>File Name</th>
+		      <th>Last Modified</th>
+                    </tr>
+            </thead>
+                  <tbody>
+		    {% for file in libContent %}
+                    <tr>
+			<td>{{ file.filename }}</td>
+			<td>{{ file.creation }}</td>
+			<td><a href="blobstore/blob/{{ file.key() }}" button type="button" class="btn btn-info">View</a></td>
+		    </tr>
+		    {% endfor %}
+                  </tbody>
+        </table>		
+    </div> 
 </div>
 
 {% block Unit %}

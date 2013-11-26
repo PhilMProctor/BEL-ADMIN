@@ -20,6 +20,7 @@ from webapp2_extras import sessions
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 import cloudstorage as gcs
+from google.appengine.api import users
 
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
@@ -647,27 +648,32 @@ class u1Handler(BaseHandler):
 class load_Handler(BaseHandler):
   #Load files into Blobstore
   def get(self):
-	upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='bel-test')
-    #upload_url = blobstore.create_upload_url('/upload')
-    	u = self.user_info
-    	username = u['name']
-    	params = {
+      upload_url = blobstore.create_upload_url('/upload', gs_bucket_name='bel-test')
+      #upload_url = blobstore.create_upload_url('/upload')
+      u = self.user_info
+      username = u['name']
+      params = {
         	'username': username,
         	'upload_url': upload_url
         	}
-    	rbac(self, 'loader', params)
+      rbac(self, 'loader', params)
     
-class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
+class UploadHandler(BaseHandler, blobstore_handlers.BlobstoreUploadHandler):
+  @user_required
   def post(self):
-	u = self.user_info
-	username = u['name']
-	upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-	blob_info = upload_files[0]
-
-	Uload = UserUploads(user=username,blob_key=blob_info.key())
-	Uload.put()
-	fin_url = '/serve/' + blob_info.key()
-	self.redirect(fin_url)
+    u = self.user_info
+    username = u['name']
+    try:
+      upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
+      blob_info = upload_files[0]
+      Uload = UserUploads(user = username,
+              blob_key = blob_info.key())
+      Uload.put()
+      #fin_url = '/serve/' + blob_info.key()
+      fin_url = 'library'
+      self.redirect(fin_url)
+    except:
+      self.redirect('upload_failure')
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
   def get(self, resource):
@@ -676,16 +682,16 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     self.send_blob(blob_info)
     
 class LibraryHandler(BaseHandler):
-	@user_required
-	def get(self):
-      		u = self.user_info
-        	libContent = blobstore.BlobInfo.all()
-      		username = u['name']
-		params = {
-		'username': username,
-		'libContent': libContent
-		}
-      		rbac(self, 'library', params)
+  @user_required
+  def get(self):
+      u = self.user_info
+      libContent = blobstore.BlobInfo.all()
+      username = u['name']
+      params = {
+      'username': username,
+      'libContent': libContent
+      }
+      rbac(self, 'library', params)
 
 class gcsHandler(BaseHandler):
 	@user_required
@@ -728,7 +734,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route(r'/aue/<:\w+>', aue_Handler, name='aue'),
     webapp2.Route(r'/auv/<:\w+>', auv_Handler, name='auv'),
     webapp2.Route('/loader', load_Handler, name='loader'),
-    webapp2.Route('upload', UploadHandler, name='upload'),
+    webapp2.Route('/upload', UploadHandler, name='upload'),
     webapp2.Route('/library', LibraryHandler, name="library"),
     webapp2.Route('/cloud', gcsHandler, name="gcs"),
     webapp2.Route('/serve/([^/]+)?', ServeHandler, name='serve'),

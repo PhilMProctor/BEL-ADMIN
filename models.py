@@ -104,6 +104,6 @@ class Weekend(ndb.Model):
     duration = ndb.TextProperty()
   
 class UserUploads(ndb.Model):
-	user = ndb.StringProperty()
-	blob_key = ndb.BlobKeyProperty()
-
+    # Details which files users have uploaded
+      user = ndb.StringProperty()
+      blob_key = ndb.BlobKeyProperty()
