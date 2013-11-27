@@ -87,6 +87,9 @@ handlers:
 
 - url: /loader
   script: main2.application
+  
+- url: /failure
+  script: main2.application
 
 - url: /.*
   script: main2.application

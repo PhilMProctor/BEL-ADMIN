@@ -709,6 +709,17 @@ class gcsHandler(BaseHandler):
 		}
 		rbac(self, 'cloud', params)
 
+class failureHandler(BaseHandler):
+  @user_required
+  def get(self):
+    u = self.user_info
+    username = u['name']
+    params = {
+      'username': username
+    }
+    rbac(self, 'failure', params)
+
+
 #	def list_bucket(self, bucket):
 			
 # End of Work Book Admin Section
@@ -736,6 +747,7 @@ application = webapp2.WSGIApplication([
     webapp2.Route('/loader', load_Handler, name='loader'),
     webapp2.Route('/upload', UploadHandler, name='upload'),
     webapp2.Route('/library', LibraryHandler, name="library"),
+    webapp2.Route('/failure', failureHandler, name="failure"),
     webapp2.Route('/cloud', gcsHandler, name="gcs"),
     webapp2.Route('/serve/([^/]+)?', ServeHandler, name='serve'),
     webapp2.Route('/u1', u1_Handler, name='u1'),
